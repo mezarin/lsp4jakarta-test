@@ -52,9 +52,9 @@ import org.eclipse.lsp4jakarta.jdt.core.PropertiesManagerForJava;
 /**
  * Delegate Command Handler for LSP4Jakarta JDT LS extension commands
  */
-public class JakartaDelegateCommandHandlerForJava implements IDelegateCommandHandler {
+public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegateCommandHandler {
 
-    private static final String JAVA_CODEACTION_COMMAND_ID = "jakarta/java/codeaction";
+    private static final String JAVA_CODEACTION_COMMAND_ID = "jakarta/java/codeAction";
     private static final String JAVA_CODEACTION_RESOLVE_COMMAND_ID = "jakarta/java/codeActionResolve";
     private static final String JAVA_COMPLETION_COMMAND_ID = "jakarta/java/completion";
     private static final String JAVA_DIAGNOSTICS_COMMAND_ID = "jakarta/java/diagnostics";
