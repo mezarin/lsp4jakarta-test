@@ -14,11 +14,11 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.commons;
 
+import java.util.List;
 import org.eclipse.lsp4j.Position;
 
 /**
- * Parameters that are passed on completion trigger for Jakarta projects in Java
- * files
+ * Parameters that are passed on completion trigger for Java projects.
  *
  * @author datho7561
  */
@@ -26,15 +26,17 @@ public class JakartaJavaCompletionParams {
 
     private String uri;
     private Position position;
+    private List<String> snippetCtx;
 
     public JakartaJavaCompletionParams() {
 
     }
 
-    public JakartaJavaCompletionParams(String uri, Position position) {
+    public JakartaJavaCompletionParams(String uri, Position position, List<String> snippetCtx) {
         this();
         setUri(uri);
         setPosition(position);
+        setSnippetCtx(snippetCtx);
     }
 
     /**
@@ -71,6 +73,14 @@ public class JakartaJavaCompletionParams {
      */
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public void setSnippetCtx(List<String> snippetCtx) {
+        this.snippetCtx = snippetCtx;
+    }
+
+    public List<String> getSnippetCtx() {
+        return this.snippetCtx;
     }
 
 }

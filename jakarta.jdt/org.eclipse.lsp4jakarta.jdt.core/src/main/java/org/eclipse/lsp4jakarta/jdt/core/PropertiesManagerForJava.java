@@ -22,6 +22,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -548,6 +550,57 @@ public class PropertiesManagerForJava {
             return fileInfo;
         }
         return null;
+    }
+
+    /**
+     * @author ankushsharma
+     * @brief Gets all snippet contexts that exist in the current project classpath
+     * @param uri - String representing file from which to derive project
+     *            classpath
+     * @param snippetContext - get all the context fields from the snippets and
+     *            check if they exist in this method
+     * @return List<String>
+     */
+    public List<String> getExistingContextsFromClassPath(JakartaJavaCompletionParams params, IJDTUtils utils) {
+        // Initialize the list that will hold the classpath
+        List<String> classpath = new ArrayList<>();
+        // Convert URI into a compilation unit
+        ICompilationUnit unit = utils.resolveCompilationUnit(params.getUri());
+        // Get Java Project
+        IJavaProject project = unit.getJavaProject();
+        // Get Java Project
+        if (project != null) {
+            params.getSnippetCtx().forEach(ctx -> {
+                IType classPathctx = null;
+                try {
+                    classPathctx = project.findType(ctx);
+                    if (classPathctx != null) {
+                        classpath.add(ctx);
+                    } else {
+                        classpath.add(null);
+                    }
+                } catch (JavaModelException e) {
+                    classpath.add(null);
+                }
+            });
+        } else {
+            // Populate the Array with nulls up to length of snippetContext
+            params.getSnippetCtx().forEach(ctx -> {
+                classpath.add(null);
+            });
+        }
+
+        // FOR NOW, append package name and class name to the list in order for LS to
+        // resolve ${packagename} and ${classname} variables
+        String className = unit.getElementName();
+        if (className.endsWith(".java") == true) {
+            className = className.substring(0, className.length() - 5);
+        }
+        String packageName = unit.getParent() != null ? unit.getParent().getElementName() : "";
+        classpath.add(packageName);
+        classpath.add(className);
+
+        return classpath;
     }
 
 }

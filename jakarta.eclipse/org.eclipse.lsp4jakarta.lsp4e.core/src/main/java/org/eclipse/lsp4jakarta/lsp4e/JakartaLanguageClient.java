@@ -65,7 +65,8 @@ public class JakartaLanguageClient extends LanguageClientImpl implements Jakarta
                 completionList = PropertiesManagerForJava.getInstance().completion(javaParams,
                                                                                    JDTUtilsLSImpl.getInstance(), monitor);
                 JavaCursorContextResult javaCursorContext = PropertiesManagerForJava.getInstance().javaCursorContext(javaParams, JDTUtilsLSImpl.getInstance(), monitor);
-                return new JakartaJavaCompletionResult(completionList, javaCursorContext);
+                List<String> filteredSnippetCtxs = PropertiesManagerForJava.getInstance().getExistingContextsFromClassPath(javaParams, JDTUtilsLSImpl.getInstance());
+                return new JakartaJavaCompletionResult(completionList, javaCursorContext, filteredSnippetCtxs);
             } catch (JavaModelException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

@@ -104,7 +104,8 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
                                                                                           JDTUtilsLSImpl.getInstance(), monitor);
         JavaCursorContextResult cursorContext = PropertiesManagerForJava.getInstance().javaCursorContext(params,
                                                                                                          JDTUtilsLSImpl.getInstance(), monitor);
-        return new JakartaJavaCompletionResult(completionList, cursorContext);
+        List<String> filteredSnippetCtxs = PropertiesManagerForJava.getInstance().getExistingContextsFromClassPath(params, JDTUtilsLSImpl.getInstance());
+        return new JakartaJavaCompletionResult(completionList, cursorContext, filteredSnippetCtxs);
     }
 
     /**
@@ -133,7 +134,15 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
                                                                   "Command '%s' must be called with required JakartaJavaCompletionParams.position (completion trigger location)!",
                                                                   commandId));
         }
-        JakartaJavaCompletionParams params = new JakartaJavaCompletionParams(javaFileUri, position);
+
+        List<String> snippetCtx = getStringList(obj, "snippetCtx");
+        if (snippetCtx == null) {
+            throw new UnsupportedOperationException(String.format(
+                                                                  "Command '%s' must be called with required JakartaJavaCompletionParams.snippetContexts (completion trigger location)!",
+                                                                  commandId));
+        }
+
+        JakartaJavaCompletionParams params = new JakartaJavaCompletionParams(javaFileUri, position, snippetCtx);
         return params;
     }
 

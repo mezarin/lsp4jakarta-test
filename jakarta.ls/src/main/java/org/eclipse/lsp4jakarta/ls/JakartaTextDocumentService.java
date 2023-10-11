@@ -36,6 +36,7 @@ import org.eclipse.lsp4j.DidSaveTextDocumentParams;
 import org.eclipse.lsp4j.Hover;
 import org.eclipse.lsp4j.HoverParams;
 import org.eclipse.lsp4j.PublishDiagnosticsParams;
+import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
 import org.eclipse.lsp4j.services.TextDocumentService;
 import org.eclipse.lsp4jakarta.commons.DocumentFormat;
@@ -87,7 +88,15 @@ public class JakartaTextDocumentService implements TextDocumentService {
         JakartaTextDocument document = documents.get(params.getTextDocument().getUri());
 
         return document.executeIfInJakartaProject((projectInfo, cancelChecker) -> {
-            JakartaJavaCompletionParams javaParams = new JakartaJavaCompletionParams(params.getTextDocument().getUri(), params.getPosition());
+
+            JavaTextDocumentSnippetRegistry snippetRegistry = documents.getSnippetRegistry();
+
+            // Get the list of snippet contexts to pass to the JDT LS ext
+            List<String> snippetReg = snippetRegistry.getSnippets().stream().map(snippet -> {
+                return ((SnippetContextForJava) snippet.getContext()).getTypes().get(0);
+            }).collect(Collectors.toList());
+
+            JakartaJavaCompletionParams javaParams = new JakartaJavaCompletionParams(params.getTextDocument().getUri(), params.getPosition(), snippetReg);
 
             // get the completion capabilities from the java language server component
             CompletableFuture<JakartaJavaCompletionResult> javaParticipantCompletionsFuture = jakartaLanguageServer.getLanguageClient().getJavaCompletion(javaParams);
@@ -121,21 +130,41 @@ public class JakartaTextDocumentService implements TextDocumentService {
 
                 // We do get a cursorContext obj back from the JDT Extn layer - we will need
                 // that for snippet selection
+                int offset = 0;
+                try {
+                    offset = document.offsetAt(params.getPosition());
+                } catch (BadLocationException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                StringBuffer prefix = new StringBuffer();
+                Range replaceRange = null;
+                try {
+                    replaceRange = getReplaceRange(document, offset, prefix);
+                } catch (BadLocationException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 JavaCursorContextResult cursorContext = completionResult.getCursorContext();
 
-                // calculate the snippet completion items based on the cursor context
-                JavaTextDocumentSnippetRegistry snippetRegistry = documents.getSnippetRegistry();
-                List<CompletionItem> snippetCompletionItems = snippetRegistry.getCompletionItems(
-                                                                                                 document, finalizedCompletionOffset, canSupportMarkdown,
-                                                                                                 snippetsSupported,
-                                                                                                 (context, model) -> {
-                                                                                                     if (context != null
-                                                                                                         && context instanceof SnippetContextForJava) {
-                                                                                                         return ((SnippetContextForJava) context).isMatch(new JavaSnippetCompletionContext(projectInfo, cursorContext));
-                                                                                                     }
-                                                                                                     return true;
-                                                                                                 }, projectInfo);
+                List<String> filteredSnippetContexts = completionResult.getFilteredSnippetContext();
+
+                List<CompletionItem> snippetCompletionItems = snippetRegistry.getCompletionItem(replaceRange, "\n", true, filteredSnippetContexts, cursorContext,
+                                                                                                prefix.toString());
                 list.getItems().addAll(snippetCompletionItems);
+                /*
+                 * List<CompletionItem> snippetCompletionItems = snippetRegistry.getCompletionItems(
+                 * document, finalizedCompletionOffset, canSupportMarkdown,
+                 * snippetsSupported,
+                 * (context, model) -> {
+                 * if (context != null
+                 * && context instanceof SnippetContextForJava) {
+                 * return ((SnippetContextForJava) context).isMatch(new JavaSnippetCompletionContext(projectInfo, cursorContext));
+                 * }
+                 * return true;
+                 * }, projectInfo);
+                 * list.getItems().addAll(snippetCompletionItems);
+                 */
 
                 // This reduces the number of completion requests to the server. See:
                 // https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_completion
@@ -265,5 +294,27 @@ public class JakartaTextDocumentService implements TextDocumentService {
         documents.all().forEach(doc -> {
             jakartaLanguageServer.getLanguageClient().publishDiagnostics(new PublishDiagnosticsParams(doc.getUri(), new ArrayList<Diagnostic>()));
         });
+    }
+
+    private Range getReplaceRange(TextDocument document, int offset, StringBuffer prefix) throws BadLocationException {
+        String text = document.getText();
+        if (offset < 0 || offset > text.length()) {
+            return null;
+        }
+        int start = offset;
+        if (offset != 0) {
+            // look for start position of "Range"
+            for (int i = offset - 1; i >= 0; i--) {
+                char ch = text.charAt(i);
+                if (!Character.isJavaIdentifierPart(ch)) {
+                    break;
+                } else {
+                    start = i;
+                    prefix.insert(0, ch);
+                }
+            }
+            // ignore/leave all characters within same "identifier" after the offset
+        }
+        return new Range(document.positionAt(start), document.positionAt(offset));
     }
 }

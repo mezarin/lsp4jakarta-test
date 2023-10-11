@@ -13,24 +13,27 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.commons;
 
+import java.util.List;
 import org.eclipse.lsp4j.CompletionList;
 
 /**
  * Represents completion information and context calculated by the Java language server component.
  */
 public class JakartaJavaCompletionResult {
-
     private CompletionList completionList;
     private JavaCursorContextResult cursorContext;
+    private List<String> filteredSnippetCtx;
 
     public JakartaJavaCompletionResult(CompletionList completionList,
-                                       JavaCursorContextResult cursorContext) {
+                                       JavaCursorContextResult cursorContext,
+                                       List<String> filteredSnippetCtx) {
         this.completionList = completionList;
         this.cursorContext = cursorContext;
+        this.filteredSnippetCtx = filteredSnippetCtx;
     }
 
     public JakartaJavaCompletionResult() {
-        this(null, null);
+        this(null, null, null);
     }
 
     /**
@@ -53,6 +56,17 @@ public class JakartaJavaCompletionResult {
      */
     public JavaCursorContextResult getCursorContext() {
         return cursorContext;
+    }
+
+    /**
+     * Returns information on the context of the cursor in the Java file, calculated
+     * by the Java language server component.
+     *
+     * @return information on the context of the cursor in the Java file, calculated
+     *         by the Java language server component
+     */
+    public List<String> getFilteredSnippetContext() {
+        return filteredSnippetCtx;
     }
 
 }
