@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ITrackedNodePosition;
 import org.eclipse.jdt.internal.corext.fix.LinkedProposalModelCore;
+import org.eclipse.lspcommon.jdt.core.java.corrections.proposal.ASTRewriteCorrectionProposal;
 
 /**
  * A proposal for quick fixes and quick assists that works on a AST rewriter and

@@ -35,14 +35,15 @@ import org.eclipse.jdt.internal.core.manipulation.util.BasicElementLabels;
 import org.eclipse.jdt.internal.corext.codemanipulation.ContextSensitiveImportRewriteContext;
 import org.eclipse.jdt.internal.corext.dom.Bindings;
 import org.eclipse.lsp4j.CodeActionKind;
+import org.eclipse.lspcommon.jdt.core.java.corrections.proposal.ASTRewriteCorrectionProposal;
 
 public class ImplementInterfaceProposal extends ASTRewriteCorrectionProposal {
 
     private static final String TITLE_MESSAGE = "Let ''{0}'' implement ''{1}''";
 
-    private IBinding fBinding;
-    private CompilationUnit fAstRoot;
-    private String interfaceType;
+    private final IBinding fBinding;
+    private final CompilationUnit fAstRoot;
+    private final String interfaceType;
 
     public ImplementInterfaceProposal(String name, ICompilationUnit targetCU, ITypeBinding binding,
                                       CompilationUnit astRoot,

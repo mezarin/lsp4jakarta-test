@@ -28,11 +28,11 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.TextEdit;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lspcommon.commons.JavaCodeActionParams;
+import org.eclipse.lspcommon.commons.JavaDiagnosticsParams;
+import org.eclipse.lspcommon.jdt.core.utils.IJDTUtils;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -47,7 +47,7 @@ public class JakartaServletTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/servlet/DontExtendHttpServlet.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // expected
@@ -58,7 +58,7 @@ public class JakartaServletTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d);
 
         // test associated quick-fix code action
-        JakartaJavaCodeActionParams codeActionParams = createCodeActionParams(uri, d);
+        JavaCodeActionParams codeActionParams = createCodeActionParams(uri, d);
         TextEdit te = te(5, 34, 5, 34, " extends HttpServlet");
         CodeAction ca = ca(uri, "Let 'DontExtendHttpServlet' extend 'HttpServlet'", d, te);
         assertJavaCodeAction(codeActionParams, IJDT_UTILS, ca);
@@ -71,7 +71,7 @@ public class JakartaServletTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/servlet/InvalidWebServlet.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d = d(9, 0, 13,
@@ -80,7 +80,7 @@ public class JakartaServletTest extends BaseJakartaTest {
 
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d);
 
-        JakartaJavaCodeActionParams codeActionParams = createCodeActionParams(uri, d);
+        JavaCodeActionParams codeActionParams = createCodeActionParams(uri, d);
         TextEdit te1 = te(9, 0, 10, 0, "@WebServlet(value = \"\")\n");
         CodeAction ca1 = ca(uri, "Add the `value` attribute to @WebServlet", d, te1);
 

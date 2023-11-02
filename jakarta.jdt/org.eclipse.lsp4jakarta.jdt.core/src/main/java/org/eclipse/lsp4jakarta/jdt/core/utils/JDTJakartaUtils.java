@@ -27,7 +27,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JavaProject;
-import org.eclipse.lsp4jakarta.commons.ClasspathKind;
+import org.eclipse.lspcommon.commons.ClasspathKind;
 
 /**
  * JDT Jakarta utilities.

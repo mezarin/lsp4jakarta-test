@@ -33,14 +33,14 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.CodeActionKind;
 import org.eclipse.lsp4j.Diagnostic;
-import org.eclipse.lsp4jakarta.commons.codeaction.CodeActionResolveData;
-import org.eclipse.lsp4jakarta.commons.codeaction.ICodeActionId;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.ExtendedCodeAction;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.IJavaCodeActionParticipant;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.JavaCodeActionContext;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.JavaCodeActionResolveContext;
 import org.eclipse.lsp4jakarta.jdt.core.java.corrections.proposal.ModifyModifiersProposal;
 import org.eclipse.lsp4jakarta.jdt.internal.Messages;
+import org.eclipse.lspcommon.commons.codeaction.CodeActionResolveData;
+import org.eclipse.lspcommon.commons.codeaction.ICodeActionId;
+import org.eclipse.lspcommon.jdt.core.java.codeaction.ExtendedCodeAction;
+import org.eclipse.lspcommon.jdt.core.java.codeaction.IJavaCodeActionParticipant;
+import org.eclipse.lspcommon.jdt.core.java.codeaction.JavaCodeActionContext;
+import org.eclipse.lspcommon.jdt.core.java.codeaction.JavaCodeActionResolveContext;
 
 /**
  * Removes any of @Disposes, @Observes and @ObservesAsync
@@ -82,7 +82,7 @@ public abstract class RemoveMethodParamAnnotationQuickFix implements IJavaCodeAc
 
         ASTNode node = context.getCoveredNode();
         MethodDeclaration parentNode = (MethodDeclaration) node.getParent();
-        List<SingleVariableDeclaration> parameters = (List<SingleVariableDeclaration>) parentNode.parameters();
+        List<SingleVariableDeclaration> parameters = parentNode.parameters();
 
         for (SingleVariableDeclaration parameter : parameters) {
 
@@ -172,7 +172,7 @@ public abstract class RemoveMethodParamAnnotationQuickFix implements IJavaCodeAc
      */
     private SingleVariableDeclaration matchParameterBinding(MethodDeclaration method, String parameterName) {
 
-        List<SingleVariableDeclaration> parameters = (List<SingleVariableDeclaration>) method.parameters();
+        List<SingleVariableDeclaration> parameters = method.parameters();
 
         for (SingleVariableDeclaration parameter : parameters) {
             if (parameter.getName().toString().equals(parameterName)) {

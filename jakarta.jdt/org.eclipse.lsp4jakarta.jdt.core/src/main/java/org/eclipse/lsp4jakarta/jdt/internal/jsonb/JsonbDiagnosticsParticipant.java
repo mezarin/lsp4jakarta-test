@@ -31,16 +31,15 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.Range;
-import org.eclipse.lsp4jakarta.jdt.core.java.diagnostics.IJavaDiagnosticsParticipant;
-import org.eclipse.lsp4jakarta.jdt.core.java.diagnostics.JavaDiagnosticsContext;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.core.utils.PositionUtils;
 import org.eclipse.lsp4jakarta.jdt.internal.DiagnosticUtils;
 import org.eclipse.lsp4jakarta.jdt.internal.Messages;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lspcommon.jdt.core.java.diagnostics.IJavaDiagnosticsParticipant;
+import org.eclipse.lspcommon.jdt.core.java.diagnostics.JavaDiagnosticsContext;
+import org.eclipse.lspcommon.jdt.core.utils.IJDTUtils;
+import org.eclipse.lspcommon.jdt.core.utils.PositionUtils;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 
 /**
  * JSON-B diagnostic participant that manages the use of @JsonbTransient,
@@ -174,7 +173,7 @@ public class JsonbDiagnosticsParticipant implements IJavaDiagnosticsParticipant 
         // convert to simple name for current tests
         List<String> diagnosticData = jsonbAnnotations.stream().map(annotation -> DiagnosticUtils.getSimpleName(annotation)).collect(Collectors.toList());
         diagnostics.add(context.createDiagnostic(uri, diagnosticErrorMessage, range, Constants.DIAGNOSTIC_SOURCE,
-                                                 (JsonArray) (new Gson().toJsonTree(diagnosticData)),
+                                                 (new Gson().toJsonTree(diagnosticData)),
                                                  errorCode, DiagnosticSeverity.Error));
 
         return true;

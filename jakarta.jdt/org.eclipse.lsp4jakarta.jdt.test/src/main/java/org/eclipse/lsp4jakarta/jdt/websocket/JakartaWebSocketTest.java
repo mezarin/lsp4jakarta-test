@@ -28,11 +28,11 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.TextEdit;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lspcommon.commons.JavaCodeActionParams;
+import org.eclipse.lspcommon.commons.JavaDiagnosticsParams;
+import org.eclipse.lspcommon.jdt.core.utils.IJDTUtils;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 import org.junit.Test;
 
 public class JakartaWebSocketTest extends BaseJakartaTest {
@@ -44,7 +44,7 @@ public class JakartaWebSocketTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/websocket/AnnotationTest.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // OnOpen PathParams Annotation check
@@ -64,7 +64,7 @@ public class JakartaWebSocketTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2, d3);
 
         // Expected code actions
-        JakartaJavaCodeActionParams codeActionsParams = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionsParams = createCodeActionParams(uri, d1);
         String newText = "\nimport jakarta.websocket.server.PathParam;\nimport jakarta.websocket.server.ServerEndpoint;\nimport jakarta.websocket.Session;\n\n"
                          + "/**\n * Expected Diagnostics are related to validating that the parameters have the \n * valid annotation @PathParam (code: AddPathParamsAnnotation)\n * See issue #247 (onOpen) and #248 (onClose)\n */\n"
                          + "@ServerEndpoint(value = \"/infos\")\npublic class AnnotationTest {\n    // @PathParam missing annotation for \"String missingAnnotation\"\n    @OnOpen\n    public void OnOpen(Session session, @PathParam(value = \"\") ";
@@ -79,7 +79,7 @@ public class JakartaWebSocketTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/websocket/InvalidParamType.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // OnOpen Invalid Param Types
@@ -102,7 +102,7 @@ public class JakartaWebSocketTest extends BaseJakartaTest {
                                                           new Path("src/main/java/io/openliberty/sample/jakarta/websockets/PathParamURIWarningTest.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d = d(22, 59, 77, "PathParam value does not match specified Endpoint URI.",
@@ -118,7 +118,7 @@ public class JakartaWebSocketTest extends BaseJakartaTest {
                                                           new Path("src/main/java/io/openliberty/sample/jakarta/websocket/ServerEndpointRelativePathTest.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d = d(6, 0, 27, "Server endpoint paths must not contain the sequences '/../', '/./' or '//'.",
@@ -133,7 +133,7 @@ public class JakartaWebSocketTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/websocket/ServerEndpointNoSlash.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
         Diagnostic d1 = d(7, 0, 23, "Server endpoint paths must start with a leading '/'.", DiagnosticSeverity.Error,
                           "jakarta-websocket", "InvalidEndpointPathWithNoStartingSlash");
@@ -149,7 +149,7 @@ public class JakartaWebSocketTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/websocket/ServerEndpointInvalidTemplateURI.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
         Diagnostic d = d(6, 0, 46, "Server endpoint paths must be a URI-template (level-1) or a partial URI.",
                          DiagnosticSeverity.Error, "jakarta-websocket", "InvalidEndpointPathNotTempleateOrPartialURI");
@@ -163,7 +163,7 @@ public class JakartaWebSocketTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/websocket/ServerEndpointDuplicateVariableURI.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
         Diagnostic d = d(6, 0, 40, "Server endpoint paths must not use the same variable more than once in a path.",
                          DiagnosticSeverity.Error, "jakarta-websocket", "InvalidEndpointPathDuplicateVariable");
@@ -176,7 +176,7 @@ public class JakartaWebSocketTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/websocket/DuplicateOnMessage.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
         Diagnostic d1 = d(11, 4, 14,
                           "Classes annotated with @ServerEndpoint or @ClientEndpoint may only have one @OnMessage annotated method for each of the native WebSocket message formats: text, binary and pong.",

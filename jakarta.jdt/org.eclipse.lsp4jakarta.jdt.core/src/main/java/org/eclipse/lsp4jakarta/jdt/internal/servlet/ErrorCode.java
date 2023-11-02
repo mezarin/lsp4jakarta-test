@@ -12,7 +12,7 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.jdt.internal.servlet;
 
-import org.eclipse.lsp4jakarta.jdt.core.java.diagnostics.IJavaErrorCode;
+import org.eclipse.lspcommon.jdt.core.java.diagnostics.IJavaErrorCode;
 
 /**
  * Servlet error code.

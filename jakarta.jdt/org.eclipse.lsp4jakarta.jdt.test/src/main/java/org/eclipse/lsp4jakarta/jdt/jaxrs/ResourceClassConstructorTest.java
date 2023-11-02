@@ -23,10 +23,10 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lspcommon.commons.JavaDiagnosticsParams;
+import org.eclipse.lspcommon.jdt.core.utils.IJDTUtils;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 import org.junit.Test;
 
 public class ResourceClassConstructorTest extends BaseJakartaTest {
@@ -38,7 +38,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/jaxrs/RootResourceClassConstructorsEqualLen.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // test expected diagnostics
@@ -60,7 +60,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/jaxrs/RootResourceClassConstructorsDiffLen.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // test expected diagnostics
@@ -77,7 +77,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/jaxrs/NoPublicConstructorClass.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // test expected diagnostics
@@ -98,7 +98,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/jaxrs/NoPublicConstructorProviderClass.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d1 = d(19, 12, 44,

@@ -40,7 +40,7 @@ import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4j.TextEdit;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
-import org.eclipse.lsp4jakarta.commons.utils.StringUtils;
+import org.eclipse.lspcommon.commons.utils.StringUtils;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;

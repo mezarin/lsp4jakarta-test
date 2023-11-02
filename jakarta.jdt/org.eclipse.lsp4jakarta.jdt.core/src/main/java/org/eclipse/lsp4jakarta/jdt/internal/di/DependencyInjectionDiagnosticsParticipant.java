@@ -33,13 +33,13 @@ import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4jakarta.jdt.core.JakartaCorePlugin;
-import org.eclipse.lsp4jakarta.jdt.core.java.diagnostics.IJavaDiagnosticsParticipant;
-import org.eclipse.lsp4jakarta.jdt.core.java.diagnostics.JavaDiagnosticsContext;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.core.utils.PositionUtils;
 import org.eclipse.lsp4jakarta.jdt.internal.DiagnosticUtils;
 import org.eclipse.lsp4jakarta.jdt.internal.Messages;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lspcommon.jdt.core.java.diagnostics.IJavaDiagnosticsParticipant;
+import org.eclipse.lspcommon.jdt.core.java.diagnostics.JavaDiagnosticsContext;
+import org.eclipse.lspcommon.jdt.core.utils.IJDTUtils;
+import org.eclipse.lspcommon.jdt.core.utils.PositionUtils;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 
 /**
  * Dependency injection diagnostics participant that manages the use of

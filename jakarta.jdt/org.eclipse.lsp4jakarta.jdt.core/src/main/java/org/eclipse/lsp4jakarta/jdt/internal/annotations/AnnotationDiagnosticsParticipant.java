@@ -34,13 +34,13 @@ import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4j.jsonrpc.messages.Tuple;
 import org.eclipse.lsp4j.jsonrpc.messages.Tuple.Two;
-import org.eclipse.lsp4jakarta.jdt.core.java.diagnostics.IJavaDiagnosticsParticipant;
-import org.eclipse.lsp4jakarta.jdt.core.java.diagnostics.JavaDiagnosticsContext;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.core.utils.PositionUtils;
 import org.eclipse.lsp4jakarta.jdt.internal.DiagnosticUtils;
 import org.eclipse.lsp4jakarta.jdt.internal.Messages;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lspcommon.jdt.core.java.diagnostics.IJavaDiagnosticsParticipant;
+import org.eclipse.lspcommon.jdt.core.java.diagnostics.JavaDiagnosticsContext;
+import org.eclipse.lspcommon.jdt.core.utils.IJDTUtils;
+import org.eclipse.lspcommon.jdt.core.utils.PositionUtils;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 
 /**
  *
@@ -146,7 +146,7 @@ public class AnnotationDiagnosticsParticipant implements IJavaDiagnosticsPartici
                 } else if (DiagnosticUtils.isMatchedAnnotation(unit, annotation, Constants.RESOURCE_FQ_NAME)) {
                     if (element instanceof IType) {
                         IType type = (IType) element;
-                        if (type.getElementType() == IJavaElement.TYPE && ((IType) type).isClass()) {
+                        if (type.getElementType() == IJavaElement.TYPE && type.isClass()) {
                             Range annotationRange = PositionUtils.toNameRange(annotation, context.getUtils());
                             Boolean nameEmpty = true;
                             Boolean typeEmpty = true;

@@ -33,16 +33,16 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.CodeActionKind;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.jsonrpc.messages.Tuple;
-import org.eclipse.lsp4jakarta.commons.codeaction.CodeActionResolveData;
-import org.eclipse.lsp4jakarta.commons.codeaction.ICodeActionId;
 import org.eclipse.lsp4jakarta.commons.codeaction.JakartaCodeActionId;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.ExtendedCodeAction;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.IJavaCodeActionParticipant;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.JavaCodeActionContext;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.JavaCodeActionResolveContext;
-import org.eclipse.lsp4jakarta.jdt.core.java.corrections.proposal.ChangeCorrectionProposal;
 import org.eclipse.lsp4jakarta.jdt.core.java.corrections.proposal.RemoveParamsProposal;
 import org.eclipse.lsp4jakarta.jdt.internal.Messages;
+import org.eclipse.lspcommon.commons.codeaction.CodeActionResolveData;
+import org.eclipse.lspcommon.commons.codeaction.ICodeActionId;
+import org.eclipse.lspcommon.jdt.core.java.codeaction.ExtendedCodeAction;
+import org.eclipse.lspcommon.jdt.core.java.codeaction.IJavaCodeActionParticipant;
+import org.eclipse.lspcommon.jdt.core.java.codeaction.JavaCodeActionContext;
+import org.eclipse.lspcommon.jdt.core.java.codeaction.JavaCodeActionResolveContext;
+import org.eclipse.lspcommon.jdt.core.java.corrections.proposal.ChangeCorrectionProposal;
 
 /**
  * Removes a resource method's entity parameters with the exception of the
@@ -160,7 +160,7 @@ public class RemoveMethodEntityParamsWithExclusionQuickFix implements IJavaCodeA
         MethodDeclaration parentNode = (MethodDeclaration) node.getParent();
         List<SingleVariableDeclaration> entityParams = new ArrayList<SingleVariableDeclaration>();
 
-        List<SingleVariableDeclaration> params = (List<SingleVariableDeclaration>) parentNode.parameters();
+        List<SingleVariableDeclaration> params = parentNode.parameters();
         SingleVariableDeclaration foundId = null;
         for (SingleVariableDeclaration param : params) {
             if (isEntityParam(param)) {

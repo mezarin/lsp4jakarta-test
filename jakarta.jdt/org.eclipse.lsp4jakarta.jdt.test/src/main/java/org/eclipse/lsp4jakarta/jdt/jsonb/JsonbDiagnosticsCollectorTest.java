@@ -28,11 +28,11 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.TextEdit;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lspcommon.commons.JavaCodeActionParams;
+import org.eclipse.lspcommon.commons.JavaDiagnosticsParams;
+import org.eclipse.lspcommon.jdt.core.utils.IJDTUtils;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -47,7 +47,7 @@ public class JsonbDiagnosticsCollectorTest extends BaseJakartaTest {
                                                           new Path("src/main/java/io/openliberty/sample/jakarta/jsonb/ExtraJsonbCreatorAnnotations.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d1 = d(18, 11, 39,
@@ -61,13 +61,13 @@ public class JsonbDiagnosticsCollectorTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2);
 
         // test code actions
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
         TextEdit te1 = te(17, 4, 18, 4, "");
         CodeAction ca1 = ca(uri, "Remove @JsonbCreator", d1, te1);
 
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca1);
 
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
         TextEdit te2 = te(20, 4, 21, 4, "");
         CodeAction ca2 = ca(uri, "Remove @JsonbCreator", d2, te2);
 
@@ -80,7 +80,7 @@ public class JsonbDiagnosticsCollectorTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/jsonb/JsonbTransientDiagnostic.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // Diagnostic for the field "id"
@@ -135,13 +135,13 @@ public class JsonbDiagnosticsCollectorTest extends BaseJakartaTest {
 
         // Test code actions
         // Quick fix for the field "id"
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
         TextEdit te1 = te(20, 4, 21, 4, "");
         CodeAction ca1 = ca(uri, "Remove @JsonbTransient", d1, te1);
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca1);
 
         // Quick fix for the field "name"
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
         TextEdit te3 = te(24, 4, 25, 4, "");
         TextEdit te4 = te(23, 4, 24, 4, "");
         CodeAction ca3 = ca(uri, "Remove @JsonbTransient", d2, te3);
@@ -149,7 +149,7 @@ public class JsonbDiagnosticsCollectorTest extends BaseJakartaTest {
         assertJavaCodeAction(codeActionParams2, IJDT_UTILS, ca4, ca3);
 
         // Quick fix for the field "favoriteLanguage"
-        JakartaJavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d3);
+        JavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d3);
         TextEdit te5 = te(29, 4, 30, 4, "");
         TextEdit te6 = te(27, 4, 29, 4, "");
         CodeAction ca5 = ca(uri, "Remove @JsonbTransient", d3, te5);
@@ -157,13 +157,13 @@ public class JsonbDiagnosticsCollectorTest extends BaseJakartaTest {
         assertJavaCodeAction(codeActionParams3, IJDT_UTILS, ca6, ca5);
 
         // Quick fix for the accessor "getId"
-        JakartaJavaCodeActionParams codeActionParams4 = createCodeActionParams(uri, d5);
+        JavaCodeActionParams codeActionParams4 = createCodeActionParams(uri, d5);
         TextEdit te7 = te(41, 4, 42, 4, "");
         CodeAction ca7 = ca(uri, "Remove @JsonbProperty", d5, te7);
         assertJavaCodeAction(codeActionParams4, IJDT_UTILS, ca7);
 
         // Quick fix for the accessor "setId"
-        JakartaJavaCodeActionParams codeActionParams5 = createCodeActionParams(uri, d6);
+        JavaCodeActionParams codeActionParams5 = createCodeActionParams(uri, d6);
         TextEdit te8 = te(48, 4, 49, 4, "");
         CodeAction ca8 = ca(uri, "Remove @JsonbAnnotation", d6, te8);
         assertJavaCodeAction(codeActionParams5, IJDT_UTILS, ca8);

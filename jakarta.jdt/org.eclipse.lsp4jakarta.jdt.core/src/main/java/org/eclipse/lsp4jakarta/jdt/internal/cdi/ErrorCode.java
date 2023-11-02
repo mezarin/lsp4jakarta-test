@@ -12,7 +12,7 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.jdt.internal.cdi;
 
-import org.eclipse.lsp4jakarta.jdt.core.java.diagnostics.IJavaErrorCode;
+import org.eclipse.lspcommon.jdt.core.java.diagnostics.IJavaErrorCode;
 
 /**
  * Contexts and Dependency Injection (CDI) error code.
@@ -38,5 +38,4 @@ public enum ErrorCode implements IJavaErrorCode {
     public String getCode() {
         return name();
     }
-
 }

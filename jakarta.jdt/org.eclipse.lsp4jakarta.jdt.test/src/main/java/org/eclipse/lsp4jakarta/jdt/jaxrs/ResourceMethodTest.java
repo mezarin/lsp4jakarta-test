@@ -29,11 +29,11 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.TextEdit;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lspcommon.commons.JavaCodeActionParams;
+import org.eclipse.lspcommon.commons.JavaDiagnosticsParams;
+import org.eclipse.lspcommon.jdt.core.utils.IJDTUtils;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 import org.junit.Test;
 
 public class ResourceMethodTest extends BaseJakartaTest {
@@ -46,7 +46,7 @@ public class ResourceMethodTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/jaxrs/NotPublicResourceMethod.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d = d(20, 17, 30, "Only public methods can be exposed as resource methods.",
@@ -55,7 +55,7 @@ public class ResourceMethodTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d);
 
         // Test for quick-fix code action
-        JakartaJavaCodeActionParams codeActionParams = createCodeActionParams(uri, d);
+        JavaCodeActionParams codeActionParams = createCodeActionParams(uri, d);
         TextEdit te = te(20, 4, 20, 11, "public"); // range may need to change
         CodeAction ca = ca(uri, "Make method public", d, te);
         assertJavaCodeAction(codeActionParams, IJDT_UTILS, ca);
@@ -67,7 +67,7 @@ public class ResourceMethodTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/jaxrs/MultipleEntityParamsResourceMethod.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d = d(21, 13, 46, "Resource methods cannot have more than one entity parameter.",
@@ -76,7 +76,7 @@ public class ResourceMethodTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d);
 
         // Test for quick-fix code action
-        JakartaJavaCodeActionParams codeActionParams = createCodeActionParams(uri, d);
+        JavaCodeActionParams codeActionParams = createCodeActionParams(uri, d);
 
         TextEdit te1 = te(21, 112, 21, 130, "");
         CodeAction ca1 = ca(uri, "Remove all entity parameters except entityParam1", d, te1);

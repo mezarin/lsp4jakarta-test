@@ -13,16 +13,19 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.jdt.internal.core.ls;
 
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getFirst;
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getString;
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getStringList;
+import static org.eclipse.lspcommon.jdt.internal.core.ls.ArgumentUtils.getFirst;
+import static org.eclipse.lspcommon.jdt.internal.core.ls.ArgumentUtils.getString;
+import static org.eclipse.lspcommon.jdt.internal.core.ls.ArgumentUtils.getStringList;
 
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaProjectLabelsParams;
-import org.eclipse.lsp4jakarta.jdt.core.ProjectLabelManager;
+import org.eclipse.lsp4jakarta.jdt.core.JakartaPropertiesManagerForJava;
+import org.eclipse.lspcommon.commons.JavaProjectLabelsParams;
+import org.eclipse.lspcommon.jdt.core.ProjectLabelManager;
+import org.eclipse.lspcommon.jdt.internal.core.ls.AbstractJakartaDelegateCommandHandler;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 
 /**
  * Delegate command handler for Java project information
@@ -31,8 +34,6 @@ import org.eclipse.lsp4jakarta.jdt.core.ProjectLabelManager;
 public class JakartaJavaProjectDelegateCommandHandler extends AbstractJakartaDelegateCommandHandler {
 
     private static final String PROJECT_LABELS_COMMAND_ID = "jakarta/java/projectLabels";
-
-    public JakartaJavaProjectDelegateCommandHandler() {}
 
     @Override
     public Object executeCommand(String commandId, List<Object> arguments, IProgressMonitor progress) throws Exception {
@@ -58,9 +59,9 @@ public class JakartaJavaProjectDelegateCommandHandler extends AbstractJakartaDel
                                                                   commandId));
         }
         List<String> types = getStringList(obj, "types");
-        JakartaJavaProjectLabelsParams params = new JakartaJavaProjectLabelsParams();
+        JavaProjectLabelsParams params = new JavaProjectLabelsParams();
         params.setUri(javaFileUri);
         params.setTypes(types);
-        return ProjectLabelManager.getInstance().getProjectLabelInfo(params, JDTUtilsLSImpl.getInstance(), monitor);
+        return ProjectLabelManager.getInstance().getProjectLabelInfo(params, JakartaPropertiesManagerForJava.getInstance().getPluginId(), JDTUtilsLSImpl.getInstance(), monitor);
     }
 }

@@ -29,11 +29,11 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.TextEdit;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lspcommon.commons.JavaCodeActionParams;
+import org.eclipse.lspcommon.commons.JavaDiagnosticsParams;
+import org.eclipse.lspcommon.jdt.core.utils.IJDTUtils;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 import org.junit.Test;
 
 public class MultipleConstructorInjectTest extends BaseJakartaTest {
@@ -46,7 +46,7 @@ public class MultipleConstructorInjectTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/di/MultipleConstructorWithInject.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // test expected diagnostic
@@ -65,12 +65,12 @@ public class MultipleConstructorInjectTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2, d3);
 
         // test expected quick-fix
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
         TextEdit te = te(21, 4, 22, 4, "");
         CodeAction ca = ca(uri, "Remove @Inject", d1, te);
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca);
 
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d3);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d3);
         TextEdit te2 = te(30, 4, 31, 4, "");
         CodeAction ca2 = ca(uri, "Remove @Inject", d3, te2);
         assertJavaCodeAction(codeActionParams2, IJDT_UTILS, ca2);

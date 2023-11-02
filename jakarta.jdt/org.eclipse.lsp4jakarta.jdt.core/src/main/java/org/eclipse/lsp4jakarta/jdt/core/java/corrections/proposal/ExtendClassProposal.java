@@ -31,12 +31,13 @@ import org.eclipse.jdt.internal.core.manipulation.dom.ASTResolving;
 import org.eclipse.jdt.internal.corext.codemanipulation.ContextSensitiveImportRewriteContext;
 import org.eclipse.jdt.internal.corext.dom.Bindings;
 import org.eclipse.lsp4j.CodeActionKind;
+import org.eclipse.lspcommon.jdt.core.java.corrections.proposal.ASTRewriteCorrectionProposal;
 
 public class ExtendClassProposal extends ASTRewriteCorrectionProposal {
 
-    private IBinding fBinding;
-    private CompilationUnit fAstRoot;
-    private String interfaceType;
+    private final IBinding fBinding;
+    private final CompilationUnit fAstRoot;
+    private final String interfaceType;
 
     public ExtendClassProposal(String name, ICompilationUnit targetCU, ITypeBinding binding, CompilationUnit astRoot,
                                String interfaceType, int relevance) {
@@ -49,6 +50,7 @@ public class ExtendClassProposal extends ASTRewriteCorrectionProposal {
         this.interfaceType = interfaceType;
     }
 
+    @Override
     protected ASTRewrite getRewrite() throws CoreException {
         ASTNode boundNode = fAstRoot.findDeclaringNode(fBinding);
         ASTNode declNode = null;

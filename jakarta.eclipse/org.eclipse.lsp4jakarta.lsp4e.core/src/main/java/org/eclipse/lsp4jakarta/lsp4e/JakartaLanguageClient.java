@@ -26,21 +26,21 @@ import org.eclipse.lsp4j.CompletionList;
 import org.eclipse.lsp4j.PublishDiagnosticsParams;
 import org.eclipse.lsp4j.jsonrpc.CancelChecker;
 import org.eclipse.lsp4j.jsonrpc.CompletableFutures;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionResult;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfo;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfoParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaProjectLabelsParams;
-import org.eclipse.lsp4jakarta.commons.JavaCursorContextResult;
-import org.eclipse.lsp4jakarta.commons.ProjectLabelInfoEntry;
-import org.eclipse.lsp4jakarta.commons.codeaction.CodeActionResolveData;
-import org.eclipse.lsp4jakarta.commons.utils.JSONUtility;
-import org.eclipse.lsp4jakarta.jdt.core.ProjectLabelManager;
-import org.eclipse.lsp4jakarta.jdt.core.PropertiesManagerForJava;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lsp4jakarta.jdt.core.JakartaPropertiesManagerForJava;
 import org.eclipse.lsp4jakarta.ls.api.JakartaLanguageClientAPI;
+import org.eclipse.lspcommon.commons.JavaCodeActionParams;
+import org.eclipse.lspcommon.commons.JavaCompletionParams;
+import org.eclipse.lspcommon.commons.JavaCompletionResult;
+import org.eclipse.lspcommon.commons.JavaCursorContextResult;
+import org.eclipse.lspcommon.commons.JavaDiagnosticsParams;
+import org.eclipse.lspcommon.commons.JavaFileInfo;
+import org.eclipse.lspcommon.commons.JavaFileInfoParams;
+import org.eclipse.lspcommon.commons.JavaProjectLabelsParams;
+import org.eclipse.lspcommon.commons.ProjectLabelInfoEntry;
+import org.eclipse.lspcommon.commons.codeaction.CodeActionResolveData;
+import org.eclipse.lspcommon.commons.utils.JSONUtility;
+import org.eclipse.lspcommon.jdt.core.ProjectLabelManager;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 
 public class JakartaLanguageClient extends LanguageClientImpl implements JakartaLanguageClientAPI {
 
@@ -62,15 +62,15 @@ public class JakartaLanguageClient extends LanguageClientImpl implements Jakarta
      * {@inheritDoc}
      */
     @Override
-    public CompletableFuture<JakartaJavaCompletionResult> getJavaCompletion(JakartaJavaCompletionParams javaParams) {
+    public CompletableFuture<JavaCompletionResult> getJavaCompletion(JavaCompletionParams javaParams) {
         return CompletableFutures.computeAsync(cancelChecker -> {
             IProgressMonitor monitor = getProgressMonitor(cancelChecker);
             CompletionList completionList;
             try {
-                completionList = PropertiesManagerForJava.getInstance().completion(javaParams,
-                                                                                   JDTUtilsLSImpl.getInstance(), monitor);
-                JavaCursorContextResult javaCursorContext = PropertiesManagerForJava.getInstance().javaCursorContext(javaParams, JDTUtilsLSImpl.getInstance(), monitor);
-                return new JakartaJavaCompletionResult(completionList, javaCursorContext);
+                completionList = JakartaPropertiesManagerForJava.getInstance().completion(javaParams,
+                                                                                          JDTUtilsLSImpl.getInstance(), monitor);
+                JavaCursorContextResult javaCursorContext = JakartaPropertiesManagerForJava.getInstance().javaCursorContext(javaParams, JDTUtilsLSImpl.getInstance(), monitor);
+                return new JavaCompletionResult(completionList, javaCursorContext);
             } catch (JavaModelException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -86,7 +86,8 @@ public class JakartaLanguageClient extends LanguageClientImpl implements Jakarta
     public CompletableFuture<List<ProjectLabelInfoEntry>> getAllJavaProjectLabels() {
         return CompletableFutures.computeAsync((cancelChecker) -> {
             IProgressMonitor monitor = getProgressMonitor(cancelChecker);
-            return ProjectLabelManager.getInstance().getProjectLabelInfo();
+            String pluginId = JakartaPropertiesManagerForJava.getInstance().getPluginId();
+            return ProjectLabelManager.getInstance().getProjectLabelInfo(pluginId);
         });
     }
 
@@ -94,10 +95,11 @@ public class JakartaLanguageClient extends LanguageClientImpl implements Jakarta
      * {@inheritDoc}
      */
     @Override
-    public CompletableFuture<ProjectLabelInfoEntry> getJavaProjectLabels(JakartaJavaProjectLabelsParams javaParams) {
+    public CompletableFuture<ProjectLabelInfoEntry> getJavaProjectLabels(JavaProjectLabelsParams javaParams) {
         return CompletableFutures.computeAsync((cancelChecker) -> {
             IProgressMonitor monitor = getProgressMonitor(cancelChecker);
-            return ProjectLabelManager.getInstance().getProjectLabelInfo(javaParams, JDTUtilsLSImpl.getInstance(),
+            String pluginId = JakartaPropertiesManagerForJava.getInstance().getPluginId();
+            return ProjectLabelManager.getInstance().getProjectLabelInfo(javaParams, pluginId, JDTUtilsLSImpl.getInstance(),
                                                                          monitor);
         });
     }
@@ -106,10 +108,9 @@ public class JakartaLanguageClient extends LanguageClientImpl implements Jakarta
      * {@inheritDoc}
      */
     @Override
-    public CompletableFuture<JakartaJavaFileInfo> getJavaFileInfo(JakartaJavaFileInfoParams javaParams) {
+    public CompletableFuture<JavaFileInfo> getJavaFileInfo(JavaFileInfoParams javaParams) {
         return CompletableFutures.computeAsync(cancelChecker -> {
-            IProgressMonitor monitor = getProgressMonitor(cancelChecker);
-            return PropertiesManagerForJava.getInstance().fileInfo(javaParams, JDTUtilsLSImpl.getInstance());
+            return JakartaPropertiesManagerForJava.getInstance().fileInfo(javaParams, JDTUtilsLSImpl.getInstance());
         });
     }
 
@@ -118,12 +119,12 @@ public class JakartaLanguageClient extends LanguageClientImpl implements Jakarta
      */
     @Override
     public CompletableFuture<List<PublishDiagnosticsParams>> getJavaDiagnostics(
-                                                                                JakartaJavaDiagnosticsParams javaParams) {
+                                                                                JavaDiagnosticsParams javaParams) {
         return CompletableFutures.computeAsync((cancelChecker) -> {
             IProgressMonitor monitor = getProgressMonitor(cancelChecker);
             try {
-                return PropertiesManagerForJava.getInstance().diagnostics(javaParams, JDTUtilsLSImpl.getInstance(),
-                                                                          monitor);
+                return JakartaPropertiesManagerForJava.getInstance().diagnostics(javaParams, JDTUtilsLSImpl.getInstance(),
+                                                                                 monitor);
             } catch (JavaModelException e) {
                 return Collections.emptyList();
             }
@@ -134,12 +135,12 @@ public class JakartaLanguageClient extends LanguageClientImpl implements Jakarta
      * {@inheritDoc}
      */
     @Override
-    public CompletableFuture<List<CodeAction>> getJavaCodeAction(JakartaJavaCodeActionParams javaParams) {
+    public CompletableFuture<List<CodeAction>> getJavaCodeAction(JavaCodeActionParams javaParams) {
         return CompletableFutures.computeAsync((cancelChecker) -> {
             IProgressMonitor monitor = getProgressMonitor(cancelChecker);
             try {
-                return (List<CodeAction>) PropertiesManagerForJava.getInstance().codeAction(javaParams,
-                                                                                            JDTUtilsLSImpl.getInstance(), monitor);
+                return (List<CodeAction>) JakartaPropertiesManagerForJava.getInstance().codeAction(javaParams,
+                                                                                                   JDTUtilsLSImpl.getInstance(), monitor);
             } catch (JavaModelException e) {
                 return Collections.emptyList();
             }
@@ -156,8 +157,8 @@ public class JakartaLanguageClient extends LanguageClientImpl implements Jakarta
             try {
                 CodeActionResolveData resolveData = JSONUtility.toModel(unresolved.getData(), CodeActionResolveData.class);
                 unresolved.setData(resolveData);
-                return (CodeAction) PropertiesManagerForJava.getInstance().resolveCodeAction(unresolved,
-                                                                                             JDTUtilsLSImpl.getInstance(), monitor);
+                return (CodeAction) JakartaPropertiesManagerForJava.getInstance().resolveCodeAction(unresolved,
+                                                                                                    JDTUtilsLSImpl.getInstance(), monitor);
             } catch (JavaModelException e) {
                 return null;
             }

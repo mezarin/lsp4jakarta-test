@@ -12,17 +12,14 @@
  *******************************************************************************/
 package org.eclipse.lsp4jakarta.jdt.internal.core.ls;
 
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.*;
-
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getBoolean;
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getCodeActionContext;
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getFirst;
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getObject;
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getPosition;
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getRange;
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getString;
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getStringList;
-import static org.eclipse.lsp4jakarta.jdt.internal.core.ls.ArgumentUtils.getTextDocumentIdentifier;
+import static org.eclipse.lspcommon.jdt.internal.core.ls.ArgumentUtils.getBoolean;
+import static org.eclipse.lspcommon.jdt.internal.core.ls.ArgumentUtils.getCodeActionContext;
+import static org.eclipse.lspcommon.jdt.internal.core.ls.ArgumentUtils.getFirst;
+import static org.eclipse.lspcommon.jdt.internal.core.ls.ArgumentUtils.getPosition;
+import static org.eclipse.lspcommon.jdt.internal.core.ls.ArgumentUtils.getRange;
+import static org.eclipse.lspcommon.jdt.internal.core.ls.ArgumentUtils.getString;
+import static org.eclipse.lspcommon.jdt.internal.core.ls.ArgumentUtils.getStringList;
+import static org.eclipse.lspcommon.jdt.internal.core.ls.ArgumentUtils.getTextDocumentIdentifier;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +27,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.ls.core.internal.IDelegateCommandHandler;
+import org.eclipse.jdt.ls.core.internal.JSONUtility;
 import org.eclipse.jdt.ls.core.internal.JavaLanguageServerPlugin;
 import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.CodeActionContext;
@@ -39,17 +36,17 @@ import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.PublishDiagnosticsParams;
 import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4j.TextDocumentIdentifier;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionResult;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsSettings;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfo;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfoParams;
-import org.eclipse.lsp4jakarta.commons.JavaCursorContextResult;
-import org.eclipse.lsp4jakarta.commons.codeaction.CodeActionResolveData;
-import org.eclipse.lsp4jakarta.commons.utils.JSONUtility;
-import org.eclipse.lsp4jakarta.jdt.core.PropertiesManagerForJava;
+import org.eclipse.lsp4jakarta.jdt.core.JakartaPropertiesManagerForJava;
+import org.eclipse.lspcommon.commons.JavaCodeActionParams;
+import org.eclipse.lspcommon.commons.JavaCompletionParams;
+import org.eclipse.lspcommon.commons.JavaCompletionResult;
+import org.eclipse.lspcommon.commons.JavaCursorContextResult;
+import org.eclipse.lspcommon.commons.JavaDiagnosticsParams;
+import org.eclipse.lspcommon.commons.JavaFileInfo;
+import org.eclipse.lspcommon.commons.JavaFileInfoParams;
+import org.eclipse.lspcommon.commons.codeaction.CodeActionResolveData;
+import org.eclipse.lspcommon.jdt.internal.core.ls.AbstractJakartaDelegateCommandHandler;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 
 /**
  * Delegate Command Handler for LSP4Jakarta JDT LS extension commands
@@ -102,11 +99,11 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
      * @throws CoreException
      * @throws JavaModelException
      */
-    private static JakartaJavaFileInfo getFileInfo(List<Object> arguments, String commandId) throws JavaModelException, CoreException {
+    private static JavaFileInfo getFileInfo(List<Object> arguments, String commandId) throws JavaModelException, CoreException {
         // Create java file information parameter
-        JakartaJavaFileInfoParams params = createJavaFileInfoParams(arguments, commandId);
+        JavaFileInfoParams params = createJavaFileInfoParams(arguments, commandId);
         // Return file information from the parameter
-        return PropertiesManagerForJava.getInstance().fileInfo(params, JDTUtilsLSImpl.getInstance());
+        return JakartaPropertiesManagerForJava.getInstance().fileInfo(params, JDTUtilsLSImpl.getInstance());
     }
 
     /**
@@ -117,7 +114,7 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
      *
      * @return the Java file information parameter.
      */
-    private static JakartaJavaFileInfoParams createJavaFileInfoParams(List<Object> arguments, String commandId) {
+    private static JavaFileInfoParams createJavaFileInfoParams(List<Object> arguments, String commandId) {
         Map<String, Object> obj = getFirst(arguments);
         if (obj == null) {
             throw new UnsupportedOperationException(String.format(
@@ -130,7 +127,7 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
                                                                   "Command '%s' must be called with required JakartaJavaFileInfoParams.uri (java file URI)!",
                                                                   commandId));
         }
-        JakartaJavaFileInfoParams params = new JakartaJavaFileInfoParams();
+        JavaFileInfoParams params = new JavaFileInfoParams();
         params.setUri(javaFileUri);
         return params;
     }
@@ -145,14 +142,14 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
      * @throws JavaModelException
      * @throws CoreException
      */
-    private static JakartaJavaCompletionResult getCompletionForJava(List<Object> arguments, String commandId,
-                                                                    IProgressMonitor monitor) throws JavaModelException, CoreException {
-        JakartaJavaCompletionParams params = createJakartaJavaCompletionParams(arguments, commandId);
-        CompletionList completionList = PropertiesManagerForJava.getInstance().completion(params,
-                                                                                          JDTUtilsLSImpl.getInstance(), monitor);
-        JavaCursorContextResult cursorContext = PropertiesManagerForJava.getInstance().javaCursorContext(params,
-                                                                                                         JDTUtilsLSImpl.getInstance(), monitor);
-        return new JakartaJavaCompletionResult(completionList, cursorContext);
+    private static JavaCompletionResult getCompletionForJava(List<Object> arguments, String commandId,
+                                                             IProgressMonitor monitor) throws JavaModelException, CoreException {
+        JavaCompletionParams params = createJakartaJavaCompletionParams(arguments, commandId);
+        CompletionList completionList = JakartaPropertiesManagerForJava.getInstance().completion(params,
+                                                                                                 JDTUtilsLSImpl.getInstance(), monitor);
+        JavaCursorContextResult cursorContext = JakartaPropertiesManagerForJava.getInstance().javaCursorContext(params,
+                                                                                                                JDTUtilsLSImpl.getInstance(), monitor);
+        return new JavaCompletionResult(completionList, cursorContext);
     }
 
     /**
@@ -162,8 +159,8 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
      * @param commandId String name of command message
      * @return the completion results parameter object based on the given argument map
      */
-    private static JakartaJavaCompletionParams createJakartaJavaCompletionParams(List<Object> arguments,
-                                                                                 String commandId) {
+    private static JavaCompletionParams createJakartaJavaCompletionParams(List<Object> arguments,
+                                                                          String commandId) {
         Map<String, Object> obj = getFirst(arguments);
         if (obj == null) {
             throw new UnsupportedOperationException(String.format(
@@ -181,7 +178,7 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
                                                                   "Command '%s' must be called with required JakartaJavaCompletionParams.position (completion trigger location)!",
                                                                   commandId));
         }
-        JakartaJavaCompletionParams params = new JakartaJavaCompletionParams(javaFileUri, position);
+        JavaCompletionParams params = new JavaCompletionParams(javaFileUri, position);
         return params;
     }
 
@@ -198,9 +195,9 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
     private static List<? extends CodeAction> getCodeActionForJava(List<Object> arguments, String commandId,
                                                                    IProgressMonitor monitor) throws JavaModelException, CoreException {
         // Create java code action parameter
-        JakartaJavaCodeActionParams params = createJakartaJavaCodeActionParams(arguments, commandId);
+        JavaCodeActionParams params = createJakartaJavaCodeActionParams(arguments, commandId);
         // Return code action from the code action parameter
-        return PropertiesManagerForJava.getInstance().codeAction(params, JDTUtilsLSImpl.getInstance(), monitor);
+        return JakartaPropertiesManagerForJava.getInstance().codeAction(params, JDTUtilsLSImpl.getInstance(), monitor);
     }
 
     /**
@@ -211,8 +208,8 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
      *
      * @return java code action parameter
      */
-    private static JakartaJavaCodeActionParams createJakartaJavaCodeActionParams(List<Object> arguments,
-                                                                                 String commandId) {
+    private static JavaCodeActionParams createJakartaJavaCodeActionParams(List<Object> arguments,
+                                                                          String commandId) {
         Map<String, Object> obj = getFirst(arguments);
         if (obj == null) {
             throw new UnsupportedOperationException(String.format(
@@ -229,7 +226,7 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
         boolean resourceOperationSupported = getBoolean(obj, "resourceOperationSupported");
         boolean commandConfigurationUpdateSupported = getBoolean(obj, "commandConfigurationUpdateSupported");
         boolean resolveSupported = getBoolean(obj, "resolveSupported");
-        JakartaJavaCodeActionParams params = new JakartaJavaCodeActionParams();
+        JavaCodeActionParams params = new JavaCodeActionParams();
         params.setTextDocument(texdDocumentIdentifier);
         params.setRange(range);
         params.setContext(context);
@@ -254,8 +251,8 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
         // Create java code action parameter
         CodeAction unresolved = createJakartaJavaCodeActionResolveParams(arguments, commandId);
         // Return code action from the code action parameter
-        return PropertiesManagerForJava.getInstance().resolveCodeAction(unresolved, JDTUtilsLSImpl.getInstance(),
-                                                                        monitor);
+        return JakartaPropertiesManagerForJava.getInstance().resolveCodeAction(unresolved, JDTUtilsLSImpl.getInstance(),
+                                                                               monitor);
     }
 
     /**
@@ -297,9 +294,9 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
     private static List<PublishDiagnosticsParams> getDiagnosticsForJava(List<Object> arguments, String commandId,
                                                                         IProgressMonitor monitor) throws JavaModelException {
         // Create java diagnostics parameter
-        JakartaJavaDiagnosticsParams params = createJakartaJavaDiagnosticsParams(arguments, commandId);
+        JavaDiagnosticsParams params = createJakartaJavaDiagnosticsParams(arguments, commandId);
         // Return diagnostics from parameter
-        return PropertiesManagerForJava.getInstance().diagnostics(params, JDTUtilsLSImpl.getInstance(), monitor);
+        return JakartaPropertiesManagerForJava.getInstance().diagnostics(params, JDTUtilsLSImpl.getInstance(), monitor);
     }
 
     /**
@@ -311,8 +308,8 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
      *
      * @return the java diagnostics parameters
      */
-    private static JakartaJavaDiagnosticsParams createJakartaJavaDiagnosticsParams(List<Object> arguments,
-                                                                                   String commandId) {
+    private static JavaDiagnosticsParams createJakartaJavaDiagnosticsParams(List<Object> arguments,
+                                                                            String commandId) {
         Map<String, Object> obj = getFirst(arguments);
         if (obj == null) {
             throw new UnsupportedOperationException(String.format(
@@ -324,12 +321,7 @@ public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegat
                                                                   "Command '%s' must be called with required JakartaJavaDiagnosticsParams.uri (java URIs)!",
                                                                   commandId));
         }
-        JakartaJavaDiagnosticsSettings settings = null;
-        Map<String, Object> settingsObj = getObject(obj, "settings");
-        if (settingsObj != null) {
-            List<String> patterns = getStringList(settingsObj, "patterns");
-            settings = new JakartaJavaDiagnosticsSettings(patterns);
-        }
-        return new JakartaJavaDiagnosticsParams(javaFileUri, settings);
+
+        return new JavaDiagnosticsParams(javaFileUri);
     }
 }

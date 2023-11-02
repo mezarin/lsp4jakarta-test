@@ -29,11 +29,11 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.TextEdit;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lspcommon.commons.JavaCodeActionParams;
+import org.eclipse.lspcommon.commons.JavaDiagnosticsParams;
+import org.eclipse.lspcommon.jdt.core.utils.IJDTUtils;
+import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 import org.junit.Test;
 
 public class JakartaPersistenceTest extends BaseJakartaTest {
@@ -47,7 +47,7 @@ public class JakartaPersistenceTest extends BaseJakartaTest {
                                                           new Path("src/main/java/io/openliberty/sample/jakarta/persistence/MapKeyAndMapKeyClassTogether.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d1 = d(16, 32, 42,
@@ -60,7 +60,7 @@ public class JakartaPersistenceTest extends BaseJakartaTest {
 
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2);
 
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
 
         TextEdit te1 = te(15, 4, 16, 4, "");
         TextEdit te2 = te(14, 4, 15, 4, "");
@@ -69,7 +69,7 @@ public class JakartaPersistenceTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca2, ca1);
 
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
 
         TextEdit te3 = te(9, 13, 10, 27, "");
         TextEdit te4 = te(9, 4, 10, 4, "");
@@ -87,7 +87,7 @@ public class JakartaPersistenceTest extends BaseJakartaTest {
                                                           new Path("src/main/java/io/openliberty/sample/jakarta/persistence/MultipleMapKeyAnnotations.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // test diagnostics are present
@@ -112,21 +112,21 @@ public class JakartaPersistenceTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2, d3, d4, d5);
 
         // test quick fixes
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
         TextEdit te1 = te(10, 4, 11, 23,
                           "@MapKeyJoinColumn(name = \"\", referencedColumnName = \"\")\n\t@MapKeyJoinColumn(name = \"\", referencedColumnName = \"\")");
         CodeAction ca1 = ca(uri, "Insert the missing attributes to the @MapKeyJoinColumn annotation", d1, te1);
 
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca1);
 
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d3);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d3);
         TextEdit te2 = te(14, 4, 15, 52,
                           "@MapKeyJoinColumn(referencedColumnName = \"rcn2\", name = \"\")\n\t@MapKeyJoinColumn(name = \"n1\", referencedColumnName = \"\")");
         CodeAction ca2 = ca(uri, "Insert the missing attributes to the @MapKeyJoinColumn annotation", d3, te2);
 
         assertJavaCodeAction(codeActionParams2, IJDT_UTILS, ca2);
 
-        JakartaJavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d5);
+        JavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d5);
         TextEdit te3 = te(18, 4, 19, 23,
                           "@MapKeyJoinColumn(name = \"\", referencedColumnName = \"\")\n\t@MapKeyJoinColumn(name = \"n1\", referencedColumnName = \"rcn1\")");
         CodeAction ca3 = ca(uri, "Insert the missing attributes to the @MapKeyJoinColumn annotation",
@@ -142,7 +142,7 @@ public class JakartaPersistenceTest extends BaseJakartaTest {
                                                           new Path("src/main/java/io/openliberty/sample/jakarta/persistence/EntityMissingConstructor.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // test diagnostics are present
@@ -153,7 +153,7 @@ public class JakartaPersistenceTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d);
 
         // test quick fixes
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d);
         TextEdit te1 = te(7, 4, 7, 4, "protected EntityMissingConstructor() {\n\t}\n\n\t");
         CodeAction ca1 = ca(uri, "Add a default 'protected' constructor to this class", d, te1);
         TextEdit te2 = te(7, 4, 7, 4, "public EntityMissingConstructor() {\n\t}\n\n\t");
@@ -170,7 +170,7 @@ public class JakartaPersistenceTest extends BaseJakartaTest {
                                                           new Path("src/main/java/io/openliberty/sample/jakarta/persistence/FinalModifiers.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // test diagnostics are present
@@ -202,31 +202,31 @@ public class JakartaPersistenceTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2, d3, d4, d5);
 
         // test quick fixes
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
         TextEdit te1 = te(10, 10, 10, 16, "");
         CodeAction ca1 = ca(uri, "Remove the 'final' modifier", d1, te1);
 
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca1);
 
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
         TextEdit te2 = te(7, 4, 7, 10, "");
         CodeAction ca2 = ca(uri, "Remove the 'final' modifier", d2, te2);
 
         assertJavaCodeAction(codeActionParams2, IJDT_UTILS, ca2);
 
-        JakartaJavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d3);
+        JavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d3);
         TextEdit te3 = te(8, 4, 8, 10, "");
         CodeAction ca3 = ca(uri, "Remove the 'final' modifier", d3, te3);
 
         assertJavaCodeAction(codeActionParams3, IJDT_UTILS, ca3);
 
-        JakartaJavaCodeActionParams codeActionParams4 = createCodeActionParams(uri, d4);
+        JavaCodeActionParams codeActionParams4 = createCodeActionParams(uri, d4);
         TextEdit te4 = te(8, 4, 8, 10, "");
         CodeAction ca4 = ca(uri, "Remove the 'final' modifier", d4, te4);
 
         assertJavaCodeAction(codeActionParams4, IJDT_UTILS, ca4);
 
-        JakartaJavaCodeActionParams codeActionParams5 = createCodeActionParams(uri, d5);
+        JavaCodeActionParams codeActionParams5 = createCodeActionParams(uri, d5);
         TextEdit te5 = te(5, 6, 5, 12, "");
         CodeAction ca5 = ca(uri, "Remove the 'final' modifier", d5, te5);
 

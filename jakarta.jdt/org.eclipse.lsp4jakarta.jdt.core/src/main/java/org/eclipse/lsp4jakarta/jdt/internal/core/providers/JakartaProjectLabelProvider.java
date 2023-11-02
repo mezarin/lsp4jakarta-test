@@ -18,8 +18,8 @@ import java.util.List;
 
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.lsp4jakarta.jdt.core.IProjectLabelProvider;
-import org.eclipse.lsp4jakarta.jdt.core.utils.JDTJakartaUtils;;
+import org.eclipse.lsp4jakarta.jdt.core.utils.JDTJakartaUtils;
+import org.eclipse.lspcommon.jdt.core.IProjectLabelProvider;
 
 /**
  * Provides a Jakarta-specific label to a project if the project is a Jakarta
