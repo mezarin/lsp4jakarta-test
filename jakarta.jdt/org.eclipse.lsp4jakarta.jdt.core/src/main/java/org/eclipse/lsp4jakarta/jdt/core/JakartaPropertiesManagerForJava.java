@@ -1,10 +1,10 @@
 package org.eclipse.lsp4jakarta.jdt.core;
 
 import org.eclipse.lsp4jakarta.commons.codeaction.JakartaCodeActionHandler;
-import org.eclipse.lspcommon.jdt.core.PropertiesManagerForJava;
-import org.eclipse.lspcommon.jdt.core.operations.java.codeaction.CodeActionHandler;
+import org.eclipse.lspcommon.jdt.core.AbstractPropertiesManagerForJava;
+import org.eclipse.lspcommon.jdt.core.operations.java.codeaction.AbstractCodeActionHandler;
 
-public class JakartaPropertiesManagerForJava extends PropertiesManagerForJava {
+public class JakartaPropertiesManagerForJava extends AbstractPropertiesManagerForJava {
 
     public static final JakartaPropertiesManagerForJava INSTANCE = new JakartaPropertiesManagerForJava();
     JakartaCodeActionHandler codeActionHandler;
@@ -25,7 +25,7 @@ public class JakartaPropertiesManagerForJava extends PropertiesManagerForJava {
      * {@inheritDoc}
      */
     @Override
-    public CodeActionHandler getCodeActionHandler() {
+    public AbstractCodeActionHandler getCodeActionHandler() {
         return JakartaCodeActionHandler.getInstance();
     }
 }
