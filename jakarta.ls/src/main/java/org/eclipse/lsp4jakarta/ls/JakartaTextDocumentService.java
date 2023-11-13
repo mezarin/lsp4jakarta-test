@@ -41,23 +41,23 @@ import org.eclipse.lsp4j.PublishDiagnosticsParams;
 import org.eclipse.lsp4j.TextDocumentClientCapabilities;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
 import org.eclipse.lsp4j.services.TextDocumentService;
-import org.eclipse.lsp4jakarta.ls.commons.BadLocationException;
-import org.eclipse.lsp4jakarta.ls.commons.TextDocument;
-import org.eclipse.lsp4jakarta.ls.commons.ValidatorDelayer;
 import org.eclipse.lsp4jakarta.ls.commons.client.ExtendedClientCapabilities;
 import org.eclipse.lsp4jakarta.ls.java.JakartaTextDocuments;
 import org.eclipse.lsp4jakarta.ls.java.JakartaTextDocuments.JakartaTextDocument;
 import org.eclipse.lsp4jakarta.ls.java.JavaTextDocumentSnippetRegistry;
 import org.eclipse.lsp4jakarta.settings.JakartaTraceSettings;
 import org.eclipse.lsp4jakarta.settings.SharedSettings;
-import org.eclipse.lsp4jakarta.snippets.JavaSnippetCompletionContext;
-import org.eclipse.lsp4jakarta.snippets.SnippetContextForJava;
 import org.eclipse.lspcommon.commons.DocumentFormat;
 import org.eclipse.lspcommon.commons.JavaCodeActionParams;
 import org.eclipse.lspcommon.commons.JavaCompletionParams;
 import org.eclipse.lspcommon.commons.JavaCompletionResult;
 import org.eclipse.lspcommon.commons.JavaCursorContextResult;
 import org.eclipse.lspcommon.commons.JavaDiagnosticsParams;
+import org.eclipse.lspcommon.ls.commons.BadLocationException;
+import org.eclipse.lspcommon.ls.commons.TextDocument;
+import org.eclipse.lspcommon.ls.commons.ValidatorDelayer;
+import org.eclipse.lspcommon.snippets.JavaSnippetCompletionContext;
+import org.eclipse.lspcommon.snippets.SnippetContextForJava;
 
 public class JakartaTextDocumentService implements TextDocumentService {
 

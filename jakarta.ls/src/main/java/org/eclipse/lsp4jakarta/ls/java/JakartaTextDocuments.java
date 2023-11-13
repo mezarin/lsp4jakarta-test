@@ -30,13 +30,13 @@ import org.eclipse.lsp4j.jsonrpc.CancelChecker;
 import org.eclipse.lsp4j.jsonrpc.CompletableFutures.FutureCancelChecker;
 import org.eclipse.lsp4jakarta.ls.api.JakartaJavaFileInfoProvider;
 import org.eclipse.lsp4jakarta.ls.api.JakartaJavaProjectLabelsProvider;
-import org.eclipse.lsp4jakarta.ls.commons.TextDocument;
-import org.eclipse.lsp4jakarta.ls.commons.TextDocuments;
 import org.eclipse.lsp4jakarta.ls.java.JakartaTextDocuments.JakartaTextDocument;
 import org.eclipse.lspcommon.commons.JavaFileInfo;
 import org.eclipse.lspcommon.commons.JavaFileInfoParams;
 import org.eclipse.lspcommon.commons.JavaProjectLabelsParams;
 import org.eclipse.lspcommon.commons.ProjectLabelInfoEntry;
+import org.eclipse.lspcommon.ls.commons.TextDocument;
+import org.eclipse.lspcommon.ls.commons.TextDocuments;
 
 /**
  * Java Text documents registry which manages opened Java file.

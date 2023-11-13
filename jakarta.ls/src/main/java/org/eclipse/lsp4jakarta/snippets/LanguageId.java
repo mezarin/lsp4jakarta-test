@@ -20,6 +20,5 @@ package org.eclipse.lsp4jakarta.snippets;
  *
  */
 public enum LanguageId {
-
-    java, properties;
+    java;
 }

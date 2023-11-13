@@ -13,7 +13,6 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.settings.capabilities;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 import org.eclipse.lsp4j.CodeActionOptions;
@@ -35,10 +34,7 @@ public class ServerCapabilitiesConstants {
     public static final String COMPLETION_ID = UUID.randomUUID().toString();
     public static final String CODE_ACTION_ID = UUID.randomUUID().toString();
 
-    public static final CompletionOptions DEFAULT_COMPLETION_OPTIONS = new CompletionOptions(true, Arrays.asList("@" /* triggered characters for java snippet annotations */,
-                                                                                                                 "\"" /*
-                                                                                                                       * trigger characters for annotation property value completion
-                                                                                                                       */));
+    public static final CompletionOptions DEFAULT_COMPLETION_OPTIONS = new CompletionOptions(false, null);
 
     public static final CodeActionOptions DEFAULT_CODEACTION_OPTIONS = createDefaultCodeActionOptions();
 

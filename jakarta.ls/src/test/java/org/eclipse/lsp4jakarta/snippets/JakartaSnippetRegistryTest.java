@@ -20,12 +20,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.eclipse.lsp4jakarta.ls.commons.snippets.ISnippetContext;
-import org.eclipse.lsp4jakarta.ls.commons.snippets.Snippet;
 import org.eclipse.lsp4jakarta.ls.java.JavaTextDocumentSnippetRegistry;
 import org.eclipse.lspcommon.commons.JavaCursorContextKind;
 import org.eclipse.lspcommon.commons.JavaCursorContextResult;
 import org.eclipse.lspcommon.commons.ProjectLabelInfoEntry;
+import org.eclipse.lspcommon.ls.commons.snippets.ISnippetContext;
+import org.eclipse.lspcommon.ls.commons.snippets.Snippet;
+import org.eclipse.lspcommon.snippets.JavaSnippetCompletionContext;
+import org.eclipse.lspcommon.snippets.SnippetContextForJava;
 import org.junit.Test;
 
 /**

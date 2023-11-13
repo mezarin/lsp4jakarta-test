@@ -32,7 +32,6 @@ import org.eclipse.lsp4j.services.WorkspaceService;
 import org.eclipse.lsp4jakarta.ls.api.JakartaJavaFileInfoProvider;
 import org.eclipse.lsp4jakarta.ls.api.JakartaJavaProjectLabelsProvider;
 import org.eclipse.lsp4jakarta.ls.api.JakartaLanguageClientAPI;
-import org.eclipse.lsp4jakarta.ls.commons.ParentProcessWatcher.ProcessLanguageServer;
 import org.eclipse.lsp4jakarta.ls.commons.client.ExtendedClientCapabilities;
 import org.eclipse.lsp4jakarta.ls.commons.client.InitializationOptionsExtendedClientCapabilities;
 import org.eclipse.lsp4jakarta.ls.java.JakartaTextDocuments;
@@ -47,6 +46,7 @@ import org.eclipse.lspcommon.commons.JavaFileInfo;
 import org.eclipse.lspcommon.commons.JavaFileInfoParams;
 import org.eclipse.lspcommon.commons.JavaProjectLabelsParams;
 import org.eclipse.lspcommon.commons.ProjectLabelInfoEntry;
+import org.eclipse.lspcommon.ls.commons.ParentProcessWatcher.ProcessLanguageServer;
 
 /**
  * Jakarta Language server.

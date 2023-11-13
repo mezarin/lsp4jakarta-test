@@ -45,13 +45,13 @@ import org.eclipse.lspcommon.commons.JavaDiagnosticsParams;
 import org.eclipse.lspcommon.commons.JavaFileInfo;
 import org.eclipse.lspcommon.commons.JavaFileInfoParams;
 import org.eclipse.lspcommon.commons.codeaction.CodeActionResolveData;
-import org.eclipse.lspcommon.jdt.internal.core.ls.AbstractJakartaDelegateCommandHandler;
+import org.eclipse.lspcommon.jdt.internal.core.ls.AbstractDelegateCommandHandler;
 import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 
 /**
  * Delegate Command Handler for LSP4Jakarta JDT LS extension commands
  */
-public class JakartaDelegateCommandHandlerForJava extends AbstractJakartaDelegateCommandHandler {
+public class JakartaDelegateCommandHandlerForJava extends AbstractDelegateCommandHandler {
 
     private static final String FILE_INFO_COMMAND_ID = "jakarta/java/fileInfo";
     private static final String JAVA_CODEACTION_COMMAND_ID = "jakarta/java/codeAction";

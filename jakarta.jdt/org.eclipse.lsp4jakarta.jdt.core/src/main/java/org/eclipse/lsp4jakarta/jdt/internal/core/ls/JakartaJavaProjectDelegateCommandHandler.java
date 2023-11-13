@@ -24,14 +24,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.lsp4jakarta.jdt.core.JakartaPropertiesManagerForJava;
 import org.eclipse.lspcommon.commons.JavaProjectLabelsParams;
 import org.eclipse.lspcommon.jdt.core.ProjectLabelManager;
-import org.eclipse.lspcommon.jdt.internal.core.ls.AbstractJakartaDelegateCommandHandler;
+import org.eclipse.lspcommon.jdt.internal.core.ls.AbstractDelegateCommandHandler;
 import org.eclipse.lspcommon.jdt.internal.core.ls.JDTUtilsLSImpl;
 
 /**
  * Delegate command handler for Java project information
  *
  */
-public class JakartaJavaProjectDelegateCommandHandler extends AbstractJakartaDelegateCommandHandler {
+public class JakartaJavaProjectDelegateCommandHandler extends AbstractDelegateCommandHandler {
 
     private static final String PROJECT_LABELS_COMMAND_ID = "jakarta/java/projectLabels";
 
