@@ -29,11 +29,11 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.TextEdit;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lsp4jdt.commons.JavaCodeActionParams;
+import org.eclipse.lsp4jdt.commons.JavaDiagnosticsParams;
+import org.eclipse.lsp4jdt.core.utils.IJDTUtils;
+import org.eclipse.lsp4jdt.participants.core.ls.JDTUtilsLSImpl;
 import org.junit.Test;
 
 public class ResourceClassConstructorTest extends BaseJakartaTest {
@@ -45,7 +45,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/jaxrs/RootResourceClassConstructorsEqualLen.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // test expected diagnostics
@@ -67,7 +67,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/jaxrs/RootResourceClassConstructorsDiffLen.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // test expected diagnostics
@@ -84,7 +84,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/jaxrs/NoPublicConstructorClass.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // Test expected diagnostics.
@@ -101,7 +101,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         // Test expected quick fixes for diagnostic 1 (private constructor).
         String newText1 = "public NoPublicConstructorClass() {\n	}\n\n	";
         String newText2 = "public";
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
         TextEdit te1 = te(7, 4, 7, 4, newText1);
         TextEdit te2 = te(7, 4, 7, 11, newText2);
         CodeAction ca1 = ca(uri, "Add a default 'public' constructor to this class", d1, te1);
@@ -110,7 +110,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca1, ca2);
 
         // Test expected quick fixes for diagnostic 2 (protected constructor).
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
         TextEdit te3 = te(7, 4, 7, 4, newText1);
         TextEdit te4 = te(11, 4, 11, 13, newText2);
         CodeAction ca3 = ca(uri, "Add a default 'public' constructor to this class", d2, te3);
@@ -125,7 +125,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/jaxrs/NoPublicConstructorProviderClass.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // Test expected diagnostics.
@@ -143,7 +143,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         String newText1 = "public NoPublicConstructorProviderClass() {\n	}\n\n	";
         String newText2 = "public";
 
-        JakartaJavaCodeActionParams codeActionParams = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams = createCodeActionParams(uri, d1);
         TextEdit te1 = te(19, 4, 19, 4, newText1);
         TextEdit te2 = te(19, 4, 19, 11, newText2);
         CodeAction ca1 = ca(uri, "Add a default 'public' constructor to this class", d1, te1);
@@ -152,7 +152,7 @@ public class ResourceClassConstructorTest extends BaseJakartaTest {
         assertJavaCodeAction(codeActionParams, IJDT_UTILS, ca1, ca2);
 
         // Test expected quick fixes for diagnostic 2 (protected constructor).
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
         TextEdit te3 = te(19, 4, 19, 4, newText1);
         TextEdit te4 = te(23, 4, 23, 13, newText2);
         CodeAction ca3 = ca(uri, "Add a default 'public' constructor to this class", d2, te3);

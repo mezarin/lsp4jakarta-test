@@ -12,7 +12,7 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.jdt.internal.jsonb;
 
-import org.eclipse.lsp4jakarta.jdt.core.java.diagnostics.IJavaErrorCode;
+import org.eclipse.lsp4jdt.core.java.diagnostics.IJavaErrorCode;
 
 /**
  * JSON Binding (JSON-B) error code.

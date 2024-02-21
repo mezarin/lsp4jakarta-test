@@ -15,8 +15,8 @@ package org.eclipse.lsp4jakarta.ls.api;
 import java.util.concurrent.CompletableFuture;
 
 import org.eclipse.lsp4j.jsonrpc.services.JsonRequest;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionResult;
+import org.eclipse.lsp4jdt.commons.JavaCompletionParams;
+import org.eclipse.lsp4jdt.commons.JavaCompletionResult;
 
 /**
  * Jakarta completion provider.
@@ -24,6 +24,6 @@ import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionResult;
 public interface JakartaJavaCompletionProvider {
 
     @JsonRequest("jakarta/java/completion")
-    CompletableFuture<JakartaJavaCompletionResult> getJavaCompletion(JakartaJavaCompletionParams javaParams);
+    CompletableFuture<JavaCompletionResult> getJavaCompletion(JavaCompletionParams javaParams);
 
 }

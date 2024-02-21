@@ -14,7 +14,7 @@
 package org.eclipse.lsp4jakarta.ls.commons.client;
 
 import org.eclipse.lsp4j.InitializeParams;
-import org.eclipse.lsp4jakarta.commons.utils.JSONUtility;
+import org.eclipse.lsp4jdt.commons.utils.JSONUtility;
 
 /**
  * Represents all extended client capabilities sent from the server

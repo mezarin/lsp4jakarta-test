@@ -61,6 +61,13 @@
             <url>https://repo.eclipse.org/content/repositories/jdtls-releases/</url>
         </repository>
     </repositories>
+    <dependencies>
+        <dependency>
+		    <groupId>org.eclipse.lsp4jdt</groupId>
+		    <artifactId>org.eclipse.lsp4jdt.core</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+	    </dependency>
+    </dependencies>
     <pluginRepositories>
         <pluginRepository>
             <id>cbi-release</id>

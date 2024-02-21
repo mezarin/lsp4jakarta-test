@@ -18,10 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.lsp4jakarta.commons.JavaCursorContextKind;
-import org.eclipse.lsp4jakarta.commons.JavaCursorContextResult;
-import org.eclipse.lsp4jakarta.commons.ProjectLabelInfoEntry;
 import org.eclipse.lsp4jakarta.ls.commons.snippets.ISnippetContext;
+import org.eclipse.lsp4jdt.commons.JavaCursorContextKind;
+import org.eclipse.lsp4jdt.commons.JavaCursorContextResult;
+import org.eclipse.lsp4jdt.commons.ProjectLabelInfoEntry;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;

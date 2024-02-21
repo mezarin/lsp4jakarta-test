@@ -16,8 +16,8 @@ package org.eclipse.lsp4jakarta.ls.api;
 import java.util.concurrent.CompletableFuture;
 
 import org.eclipse.lsp4j.jsonrpc.services.JsonRequest;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfo;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfoParams;
+import org.eclipse.lsp4jdt.commons.JavaFileInfo;
+import org.eclipse.lsp4jdt.commons.JavaFileInfoParams;
 
 /**
  * Jakarta Java file information provider.
@@ -31,6 +31,6 @@ import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfoParams;
 public interface JakartaJavaFileInfoProvider {
 
     @JsonRequest("jakarta/java/fileInfo")
-    CompletableFuture<JakartaJavaFileInfo> getJavaFileInfo(JakartaJavaFileInfoParams params);
+    CompletableFuture<JavaFileInfo> getJavaFileInfo(JavaFileInfoParams params);
 
 }

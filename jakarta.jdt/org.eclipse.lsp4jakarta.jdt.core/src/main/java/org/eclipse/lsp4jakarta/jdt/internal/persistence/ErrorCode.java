@@ -12,7 +12,7 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.jdt.internal.persistence;
 
-import org.eclipse.lsp4jakarta.jdt.core.java.diagnostics.IJavaErrorCode;
+import org.eclipse.lsp4jdt.core.java.diagnostics.IJavaErrorCode;
 
 /**
  * Persistence error code.

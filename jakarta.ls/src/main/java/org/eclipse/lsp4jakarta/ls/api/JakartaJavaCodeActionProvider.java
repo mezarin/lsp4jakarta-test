@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.jsonrpc.services.JsonRequest;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
+import org.eclipse.lsp4jdt.commons.JavaCodeActionParams;
 
 /**
  * Jakarta code action provider.
@@ -26,6 +26,6 @@ import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
 public interface JakartaJavaCodeActionProvider {
 
     @JsonRequest("jakarta/java/codeAction")
-    CompletableFuture<List<CodeAction>> getJavaCodeAction(JakartaJavaCodeActionParams javaParams);
+    CompletableFuture<List<CodeAction>> getJavaCodeAction(JavaCodeActionParams javaParams);
 
 }

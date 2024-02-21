@@ -12,9 +12,9 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.jdt.internal.cdi;
 
-import org.eclipse.lsp4jakarta.commons.codeaction.ICodeActionId;
 import org.eclipse.lsp4jakarta.commons.codeaction.JakartaCodeActionId;
 import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.InsertDefaultConstructorToClassQuickFix;
+import org.eclipse.lsp4jdt.commons.codeaction.ICodeActionId;
 
 /**
  * Inserts a public default constructor the active managed bean class.

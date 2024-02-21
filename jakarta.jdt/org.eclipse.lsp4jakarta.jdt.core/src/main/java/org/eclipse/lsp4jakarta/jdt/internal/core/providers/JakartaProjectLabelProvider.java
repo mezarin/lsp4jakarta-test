@@ -18,8 +18,8 @@ import java.util.List;
 
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.lsp4jakarta.jdt.core.IProjectLabelProvider;
-import org.eclipse.lsp4jakarta.jdt.core.utils.JDTJakartaUtils;;
+import org.eclipse.lsp4jakarta.jdt.core.utils.JakartaJDTUtils;
+import org.eclipse.lsp4jdt.core.IProjectLabelProvider;;
 
 /**
  * Provides a Jakarta-specific label to a project if the project is a Jakarta
@@ -37,7 +37,7 @@ public class JakartaProjectLabelProvider implements IProjectLabelProvider {
 
     @Override
     public List<String> getProjectLabels(IJavaProject project) throws JavaModelException {
-        if (JDTJakartaUtils.isJakartaProject(project)) {
+        if (JakartaJDTUtils.isJakartaProject(project)) {
             return Collections.singletonList(JAKARTA_LABEL);
         }
 

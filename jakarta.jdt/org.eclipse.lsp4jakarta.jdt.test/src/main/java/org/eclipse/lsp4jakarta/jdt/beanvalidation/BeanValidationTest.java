@@ -28,11 +28,11 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.TextEdit;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lsp4jdt.commons.JavaCodeActionParams;
+import org.eclipse.lsp4jdt.commons.JavaDiagnosticsParams;
+import org.eclipse.lsp4jdt.core.utils.IJDTUtils;
+import org.eclipse.lsp4jdt.participants.core.ls.JDTUtilsLSImpl;
 import org.junit.Test;
 
 public class BeanValidationTest extends BaseJakartaTest {
@@ -46,7 +46,7 @@ public class BeanValidationTest extends BaseJakartaTest {
                                                           new Path("src/main/java/io/openliberty/sample/jakarta/beanvalidation/ValidConstraints.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // should be no errors
@@ -61,7 +61,7 @@ public class BeanValidationTest extends BaseJakartaTest {
                                                           new Path("src/main/java/io/openliberty/sample/jakarta/beanvalidation/FieldConstraintValidation.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // Test diagnostics
@@ -186,13 +186,13 @@ public class BeanValidationTest extends BaseJakartaTest {
 
         // Test quickfix codeActions - type (1-17), static, static+type (should only
         // display static)
-        JakartaJavaCodeActionParams codeActionParams = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams = createCodeActionParams(uri, d1);
         TextEdit te = te(9, 4, 10, 4, "");
         CodeAction ca = ca(uri, "Remove constraint annotation AssertTrue from element", d1, te);
 
         assertJavaCodeAction(codeActionParams, IJDT_UTILS, ca);
 
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d19);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d19);
         TextEdit te1 = te(59, 4, 60, 4, "");
         TextEdit te2 = te(60, 11, 60, 18, "");
         CodeAction ca1 = ca(uri, "Remove constraint annotation AssertTrue from element", d19, te1);
@@ -200,7 +200,7 @@ public class BeanValidationTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams2, IJDT_UTILS, ca1, ca2);
 
-        JakartaJavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d20);
+        JavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d20);
         TextEdit te3 = te(62, 4, 63, 4, "");
         TextEdit te4 = te(63, 11, 63, 18, "");
         CodeAction ca3 = ca(uri, "Remove constraint annotation Past from element", d20, te3);
@@ -217,7 +217,7 @@ public class BeanValidationTest extends BaseJakartaTest {
                                                           new Path("src/main/java/io/openliberty/sample/jakarta/beanvalidation/MethodConstraintValidation.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // Test diagnostics
@@ -237,7 +237,7 @@ public class BeanValidationTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2, d3);
 
         // Test quickfix codeActions
-        JakartaJavaCodeActionParams codeActionParams = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams = createCodeActionParams(uri, d1);
         TextEdit te = te(19, 4, 20, 4, "");
         TextEdit te2 = te(20, 10, 20, 17, "");
         CodeAction ca = ca(uri, "Remove constraint annotation AssertTrue from element", d1, te);

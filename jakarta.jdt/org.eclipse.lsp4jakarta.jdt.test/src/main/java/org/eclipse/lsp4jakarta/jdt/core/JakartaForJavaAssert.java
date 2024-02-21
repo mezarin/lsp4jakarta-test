@@ -36,9 +36,9 @@ import org.eclipse.lsp4j.TextEdit;
 import org.eclipse.lsp4j.VersionedTextDocumentIdentifier;
 import org.eclipse.lsp4j.WorkspaceEdit;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
+import org.eclipse.lsp4jdt.commons.JavaCodeActionParams;
+import org.eclipse.lsp4jdt.commons.JavaDiagnosticsParams;
+import org.eclipse.lsp4jdt.core.utils.IJDTUtils;
 import org.junit.Assert;
 
 /**
@@ -50,19 +50,19 @@ public class JakartaForJavaAssert {
 
     // ------------------- Assert for CodeAction
 
-    public static JakartaJavaCodeActionParams createCodeActionParams(String uri, Diagnostic d) {
+    public static JavaCodeActionParams createCodeActionParams(String uri, Diagnostic d) {
         TextDocumentIdentifier textDocument = new TextDocumentIdentifier(uri);
         Range range = d.getRange();
         CodeActionContext context = new CodeActionContext();
         context.setDiagnostics(Arrays.asList(d));
-        JakartaJavaCodeActionParams codeActionParams = new JakartaJavaCodeActionParams(textDocument, range, context);
+        JavaCodeActionParams codeActionParams = new JavaCodeActionParams(textDocument, range, context);
         codeActionParams.setResourceOperationSupported(true);
         return codeActionParams;
     }
 
-    public static void assertJavaCodeAction(JakartaJavaCodeActionParams params, IJDTUtils utils, CodeAction... expected) throws JavaModelException {
-        List<? extends CodeAction> actual = PropertiesManagerForJava.getInstance().codeAction(params, utils,
-                                                                                              new NullProgressMonitor());
+    public static void assertJavaCodeAction(JavaCodeActionParams params, IJDTUtils utils, CodeAction... expected) throws JavaModelException {
+        List<? extends CodeAction> actual = JakartaPropertiesManagerForJava.getInstance().codeAction(params, utils,
+                                                                                                     new NullProgressMonitor());
         assertCodeActions(actual != null && actual.size() > 0 ? actual : Collections.emptyList(), expected);
     }
 
@@ -155,10 +155,10 @@ public class JakartaForJavaAssert {
         return new Position(line, character);
     }
 
-    public static void assertJavaDiagnostics(JakartaJavaDiagnosticsParams params, IJDTUtils utils,
+    public static void assertJavaDiagnostics(JavaDiagnosticsParams params, IJDTUtils utils,
                                              Diagnostic... expected) throws JavaModelException {
-        List<PublishDiagnosticsParams> actual = PropertiesManagerForJava.getInstance().diagnostics(params,
-                                                                                                   utils, new NullProgressMonitor());
+        List<PublishDiagnosticsParams> actual = JakartaPropertiesManagerForJava.getInstance().diagnostics(params,
+                                                                                                          utils, new NullProgressMonitor());
 
         assertDiagnostics(
                           actual != null && actual.size() > 0 ? actual.get(0).getDiagnostics() : Collections.emptyList(),

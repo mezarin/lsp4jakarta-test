@@ -13,7 +13,6 @@
 package org.eclipse.lsp4jakarta.jdt.internal;
 
 import java.text.MessageFormat;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.lsp4jakarta.jdt.core.JakartaCorePlugin;
@@ -25,8 +24,7 @@ public final class Messages {
     private static ResourceBundle resourceBundle = null;
 
     private static synchronized void initializeBundles() {
-        resourceBundle = ResourceBundle.getBundle("org.eclipse.lsp4jakarta.jdt.core.messages.messages",
-                                                  Locale.getDefault());
+        resourceBundle = ResourceBundle.getBundle("org.eclipse.lsp4jakarta.jdt.core.messages.messages");
     }
 
     /**

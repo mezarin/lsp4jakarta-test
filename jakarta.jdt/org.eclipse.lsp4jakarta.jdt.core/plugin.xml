@@ -6,9 +6,7 @@
    <extension-point id="projectLabelProviders"
                 name="%projectLabelProviders.name"
                 schema="schema/projectLabelProviders.exsd"/>
-   <extension-point id="javaFeatureParticipants"
-					name="%javaFeatureParticipants.name"
-					schema="schema/javaFeatureParticipants.exsd" />
+
 	<requires>
 		<import plugin="org.eclipse.core.runtime" />
 	</requires>
@@ -37,7 +35,7 @@
    </extension>
    
    <!-- JAXRS -->
-   <extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants">
+   <extension point="org.eclipse.lsp4jdt.core.javaFeatureParticipants">
       <diagnostics class="org.eclipse.lsp4jakarta.jdt.internal.jaxrs.ResourceMethodDiagnosticsParticipant" />
       <codeAction kind="quickfix"
                   targetDiagnostic="jakarta-jaxrs#ResourceMethodMultipleEntityParams"
@@ -56,7 +54,7 @@
    </extension>
    
    <!-- Annotations -->
-   <extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants">
+   <extension point="org.eclipse.lsp4jdt.core.javaFeatureParticipants">
       <diagnostics class="org.eclipse.lsp4jakarta.jdt.internal.annotations.AnnotationDiagnosticsParticipant" />
       <codeAction kind="quickfix"
                   targetDiagnostic="jakarta-annotations#MissingResourceNameAttribute"
@@ -88,7 +86,7 @@
    </extension>
    
    <!-- Bean Validation -->
-   <extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants">
+   <extension point="org.eclipse.lsp4jdt.core.javaFeatureParticipants">
       <diagnostics class="org.eclipse.lsp4jakarta.jdt.internal.beanvalidation.BeanValidationDiagnosticsParticipant" />
             <codeAction kind="quickfix"
                   targetDiagnostic="jakarta-bean-validation#InvalidConstrainAnnotationOnStaticMethodOrField"
@@ -136,7 +134,7 @@
    </extension>
    
    <!-- Dependecy injection -->
-   <extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants">
+   <extension point="org.eclipse.lsp4jdt.core.javaFeatureParticipants">
       <diagnostics class="org.eclipse.lsp4jakarta.jdt.internal.di.DependencyInjectionDiagnosticsParticipant" />
       <codeAction kind="quickfix"
                   targetDiagnostic="jakarta-di#InvalidInjectAnnotationOnFinalField"
@@ -171,7 +169,7 @@
    </extension>
    
    <!-- JSON-B -->
-   <extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants">
+   <extension point="org.eclipse.lsp4jdt.core.javaFeatureParticipants">
       <diagnostics class="org.eclipse.lsp4jakarta.jdt.internal.jsonb.JsonbDiagnosticsParticipant" />
       <codeAction kind="quickfix"
                   targetDiagnostic="jakarta-jsonb#InvalidNumerOfJsonbCreatorAnnotationsInClass"
@@ -185,12 +183,12 @@
    </extension>  
    
    <!-- JSON-P -->
-   <extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants">
+   <extension point="org.eclipse.lsp4jdt.core.javaFeatureParticipants">
       <diagnostics class="org.eclipse.lsp4jakarta.jdt.internal.jsonp.JsonpDiagnosticParticipant" />
    </extension>  
    
    <!-- Persistence -->
-   <extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants">
+   <extension point="org.eclipse.lsp4jdt.core.javaFeatureParticipants">
       <diagnostics class="org.eclipse.lsp4jakarta.jdt.internal.persistence.PersistenceEntityDiagnosticsParticipant" />
       <codeAction kind="quickfix"
                   targetDiagnostic="jakarta-persistence#InvalidFinalMethodInEntityAnnotatedClass"
@@ -224,7 +222,7 @@
    </extension>
    
    <!-- WebSocket -->
-   <extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants">
+   <extension point="org.eclipse.lsp4jdt.core.javaFeatureParticipants">
       <diagnostics class="org.eclipse.lsp4jakarta.jdt.internal.websocket.WebSocketDiagnosticsParticipant" />
       <codeAction kind="quickfix"
                   targetDiagnostic="jakarta-websocket#PathParamsMissingFromParam"
@@ -232,7 +230,7 @@
    </extension>
 
    <!-- Servlet -->
-   <extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants">
+   <extension point="org.eclipse.lsp4jdt.core.javaFeatureParticipants">
       <diagnostics class="org.eclipse.lsp4jakarta.jdt.internal.servlet.FilterDiagnosticsParticipant" />
       <codeAction kind="quickfix"
                   targetDiagnostic="jakarta-servlet#WebFilterAnnotationAttributeConflict"
@@ -263,7 +261,7 @@
    </extension>
    
    <!-- CDI -->
-   <extension point="org.eclipse.lsp4jakarta.jdt.core.javaFeatureParticipants">
+   <extension point="org.eclipse.lsp4jdt.core.javaFeatureParticipants">
       <diagnostics class="org.eclipse.lsp4jakarta.jdt.internal.cdi.ManagedBeanDiagnosticsParticipant" />
       <codeAction kind="quickfix"
                   targetDiagnostic="jakarta-cdi#InvalidNumberOfScopedAnnotationsByManagedBean"

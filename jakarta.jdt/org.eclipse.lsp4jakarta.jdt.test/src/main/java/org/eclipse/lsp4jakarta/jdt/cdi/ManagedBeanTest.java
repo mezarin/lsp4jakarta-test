@@ -29,11 +29,11 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.TextEdit;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lsp4jdt.commons.JavaCodeActionParams;
+import org.eclipse.lsp4jdt.commons.JavaDiagnosticsParams;
+import org.eclipse.lsp4jdt.core.utils.IJDTUtils;
+import org.eclipse.lsp4jdt.participants.core.ls.JDTUtilsLSImpl;
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -48,7 +48,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/cdi/ManagedBean.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // test expected diagnostic
@@ -68,13 +68,13 @@ public class ManagedBeanTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2, d3, d4);
 
         // Assert for diagnostic d3
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d3);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d3);
         TextEdit te3 = te(4, 0, 5, 0, "@Dependent\n");
         CodeAction ca3 = ca(uri, "Replace current scope with @Dependent", d3, te3);
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca3);
 
         // Assert for diagnostic d4
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d4);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d4);
         TextEdit te4 = te(4, 0, 5, 0, "@Dependent\n");
         CodeAction ca4 = ca(uri, "Replace current scope with @Dependent", d4, te4);
         assertJavaCodeAction(codeActionParams2, IJDT_UTILS, ca4);
@@ -86,7 +86,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/cdi/ScopeDeclaration.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // test expected diagnostic
@@ -106,7 +106,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2, d3);
 
         // Assert for the diagnostic d1
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
         TextEdit te1 = te(11, 33, 12, 4, "");
         TextEdit te2 = te(11, 14, 11, 33, "");
         CodeAction ca1 = ca(uri, "Remove @ApplicationScoped", d1, te2);
@@ -115,7 +115,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca1, ca2);
 
         // Assert for the diagnostic d2
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
         TextEdit te3 = te(14, 33, 15, 4, "");
         TextEdit te4 = te(14, 14, 14, 33, "");
         CodeAction ca3 = ca(uri, "Remove @ApplicationScoped", d2, te4);
@@ -124,7 +124,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
         assertJavaCodeAction(codeActionParams2, IJDT_UTILS, ca3, ca4);
 
         // Assert for the diagnostic d3
-        JakartaJavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d3);
+        JavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d3);
         TextEdit te5 = te(9, 19, 10, 0, "");
         TextEdit te6 = te(9, 0, 9, 19, "");
         CodeAction ca5 = ca(uri, "Remove @ApplicationScoped", d3, te6);
@@ -139,7 +139,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/cdi/ProducesAndInjectTogether.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d1 = d(16, 18, 23,
@@ -152,7 +152,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2);
 
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
 
         TextEdit te1 = te(14, 4, 15, 4, "");
         TextEdit te2 = te(15, 4, 16, 4, "");
@@ -161,7 +161,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca1, ca2);
 
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
 
         TextEdit te3 = te(9, 4, 10, 4, "");
         TextEdit te4 = te(10, 4, 11, 4, "");
@@ -177,7 +177,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/cdi/InjectAndDisposesObservesObservesAsync.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d1 = d(10, 18, 31,
@@ -214,7 +214,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2, d3, d4, d5, d6, d7, d8);
 
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
 
         TextEdit te1 = te(9, 4, 10, 4, "");
         TextEdit te2 = te(10, 32, 10, 42, "");
@@ -223,7 +223,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca1, ca2);
 
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
 
         TextEdit te3 = te(15, 4, 16, 4, "");
         TextEdit te4 = te(16, 32, 16, 42, "");
@@ -232,7 +232,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams2, IJDT_UTILS, ca3, ca4);
 
-        JakartaJavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d3);
+        JavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d3);
 
         TextEdit te5 = te(21, 4, 22, 4, "");
         TextEdit te6 = te(22, 37, 22, 52, "");
@@ -241,7 +241,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams3, IJDT_UTILS, ca5, ca6);
 
-        JakartaJavaCodeActionParams codeActionParams4 = createCodeActionParams(uri, d4);
+        JavaCodeActionParams codeActionParams4 = createCodeActionParams(uri, d4);
 
         TextEdit te7 = te(27, 4, 28, 4, "");
         TextEdit te8 = te(28, 40, 28, 50, "");
@@ -252,7 +252,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams4, IJDT_UTILS, ca7, ca8, ca9);
 
-        JakartaJavaCodeActionParams codeActionParams5 = createCodeActionParams(uri, d5);
+        JavaCodeActionParams codeActionParams5 = createCodeActionParams(uri, d5);
 
         TextEdit te10 = te(33, 4, 34, 4, "");
         TextEdit te11 = te(34, 45, 34, 55, "");
@@ -263,7 +263,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams5, IJDT_UTILS, ca10, ca11, ca12);
 
-        JakartaJavaCodeActionParams codeActionParams6 = createCodeActionParams(uri, d6);
+        JavaCodeActionParams codeActionParams6 = createCodeActionParams(uri, d6);
 
         TextEdit te13 = te(39, 4, 40, 4, "");
         TextEdit te14 = te(40, 45, 40, 55, "");
@@ -274,7 +274,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams6, IJDT_UTILS, ca13, ca14, ca15);
 
-        JakartaJavaCodeActionParams codeActionParams7 = createCodeActionParams(uri, d7);
+        JavaCodeActionParams codeActionParams7 = createCodeActionParams(uri, d7);
 
         TextEdit te16 = te(45, 4, 46, 4, "");
         TextEdit te17 = te(46, 53, 46, 63, "");
@@ -287,7 +287,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams7, IJDT_UTILS, ca16, ca17, ca18, ca19);
 
-        JakartaJavaCodeActionParams codeActionParams8 = createCodeActionParams(uri, d8);
+        JavaCodeActionParams codeActionParams8 = createCodeActionParams(uri, d8);
 
         TextEdit te20 = te(50, 4, 51, 4, "");
         TextEdit te21 = te(51, 54, 51, 89, "");
@@ -305,7 +305,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/cdi/ProducesAndDisposesObservesObservesAsync.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d1 = d(12, 18, 31,
@@ -358,7 +358,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12);
 
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d1);
 
         TextEdit te1 = te(11, 4, 12, 4, "");
         TextEdit te2 = te(12, 32, 12, 42, "");
@@ -367,7 +367,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca1, ca2);
 
-        JakartaJavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams2 = createCodeActionParams(uri, d2);
 
         TextEdit te3 = te(17, 4, 18, 4, "");
         TextEdit te4 = te(18, 32, 18, 42, "");
@@ -376,7 +376,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams2, IJDT_UTILS, ca3, ca4);
 
-        JakartaJavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d3);
+        JavaCodeActionParams codeActionParams3 = createCodeActionParams(uri, d3);
 
         TextEdit te5 = te(23, 4, 24, 4, "");
         TextEdit te6 = te(24, 37, 24, 52, "");
@@ -385,7 +385,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams3, IJDT_UTILS, ca5, ca6);
 
-        JakartaJavaCodeActionParams codeActionParams4 = createCodeActionParams(uri, d4);
+        JavaCodeActionParams codeActionParams4 = createCodeActionParams(uri, d4);
 
         TextEdit te7 = te(29, 4, 30, 4, "");
         TextEdit te8 = te(30, 40, 30, 50, "");
@@ -396,7 +396,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams4, IJDT_UTILS, ca7, ca8, ca9);
 
-        JakartaJavaCodeActionParams codeActionParams5 = createCodeActionParams(uri, d5);
+        JavaCodeActionParams codeActionParams5 = createCodeActionParams(uri, d5);
 
         TextEdit te10 = te(35, 4, 36, 4, "");
         TextEdit te11 = te(36, 45, 36, 55, "");
@@ -407,7 +407,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams5, IJDT_UTILS, ca10, ca11, ca12);
 
-        JakartaJavaCodeActionParams codeActionParams6 = createCodeActionParams(uri, d6);
+        JavaCodeActionParams codeActionParams6 = createCodeActionParams(uri, d6);
 
         TextEdit te13 = te(41, 4, 42, 4, "");
         TextEdit te14 = te(42, 45, 42, 55, "");
@@ -418,7 +418,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams6, IJDT_UTILS, ca13, ca14, ca15);
 
-        JakartaJavaCodeActionParams codeActionParams7 = createCodeActionParams(uri, d7);
+        JavaCodeActionParams codeActionParams7 = createCodeActionParams(uri, d7);
 
         TextEdit te16 = te(47, 4, 48, 4, "");
         TextEdit te17 = te(48, 53, 48, 63, "");
@@ -431,7 +431,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams7, IJDT_UTILS, ca16, ca17, ca18, ca19);
 
-        JakartaJavaCodeActionParams codeActionParams8 = createCodeActionParams(uri, d8);
+        JavaCodeActionParams codeActionParams8 = createCodeActionParams(uri, d8);
 
         TextEdit te20 = te(53, 4, 54, 4, "");
         TextEdit te21 = te(54, 54, 54, 89, "");
@@ -441,7 +441,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams8, IJDT_UTILS, ca20, ca21);
 
-        JakartaJavaCodeActionParams codeActionParams9 = createCodeActionParams(uri, d9);
+        JavaCodeActionParams codeActionParams9 = createCodeActionParams(uri, d9);
 
         TextEdit te22 = te(30, 40, 30, 50, "");
         TextEdit te23 = te(30, 64, 30, 74, "");
@@ -450,7 +450,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams9, IJDT_UTILS, ca22, ca23);
 
-        JakartaJavaCodeActionParams codeActionParams10 = createCodeActionParams(uri, d10);
+        JavaCodeActionParams codeActionParams10 = createCodeActionParams(uri, d10);
 
         TextEdit te24 = te(42, 45, 42, 55, "");
         TextEdit te25 = te(42, 69, 42, 84, "");
@@ -459,7 +459,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams10, IJDT_UTILS, ca24, ca25);
 
-        JakartaJavaCodeActionParams codeActionParams11 = createCodeActionParams(uri, d11);
+        JavaCodeActionParams codeActionParams11 = createCodeActionParams(uri, d11);
 
         TextEdit te26 = te(48, 53, 48, 63, "");
         TextEdit te27 = te(48, 77, 48, 87, "");
@@ -470,7 +470,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
 
         assertJavaCodeAction(codeActionParams11, IJDT_UTILS, ca26, ca27, ca28);
 
-        JakartaJavaCodeActionParams codeActionParams12 = createCodeActionParams(uri, d12);
+        JavaCodeActionParams codeActionParams12 = createCodeActionParams(uri, d12);
 
         TextEdit te30 = te(54, 54, 54, 89, "");
         CodeAction ca30 = ca(uri,
@@ -485,7 +485,7 @@ public class ManagedBeanTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/cdi/MultipleDisposes.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         Diagnostic d = d(9, 18, 23,

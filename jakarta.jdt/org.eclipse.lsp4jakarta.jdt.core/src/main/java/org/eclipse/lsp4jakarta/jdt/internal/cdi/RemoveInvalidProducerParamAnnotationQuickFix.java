@@ -12,8 +12,8 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.jdt.internal.cdi;
 
-import org.eclipse.lsp4jakarta.commons.codeaction.ICodeActionId;
 import org.eclipse.lsp4jakarta.commons.codeaction.JakartaCodeActionId;
+import org.eclipse.lsp4jdt.commons.codeaction.ICodeActionId;
 
 /**
  * Removes the @Disposes, @Observes and @ObservesAsync annotations from

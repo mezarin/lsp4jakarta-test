@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 import org.eclipse.lsp4j.PublishDiagnosticsParams;
 import org.eclipse.lsp4j.jsonrpc.services.JsonRequest;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
+import org.eclipse.lsp4jdt.commons.JavaDiagnosticsParams;
 
 /**
  * Jakarta Java diagnostics provider.
@@ -25,5 +25,5 @@ import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 public interface JakartaJavaDiagnosticsProvider {
 
     @JsonRequest("jakarta/java/diagnostics")
-    CompletableFuture<List<PublishDiagnosticsParams>> getJavaDiagnostics(JakartaJavaDiagnosticsParams javaParams);
+    CompletableFuture<List<PublishDiagnosticsParams>> getJavaDiagnostics(JavaDiagnosticsParams javaParams);
 }

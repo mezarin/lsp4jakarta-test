@@ -31,9 +31,13 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.CodeActionKind;
 import org.eclipse.lsp4j.Diagnostic;
-import org.eclipse.lsp4jakarta.commons.codeaction.CodeActionResolveData;
-import org.eclipse.lsp4jakarta.commons.codeaction.ICodeActionId;
 import org.eclipse.lsp4jakarta.jdt.core.java.corrections.proposal.ModifyModifiersProposal;
+import org.eclipse.lsp4jdt.commons.codeaction.CodeActionResolveData;
+import org.eclipse.lsp4jdt.commons.codeaction.ICodeActionId;
+import org.eclipse.lsp4jdt.core.java.codeaction.ExtendedCodeAction;
+import org.eclipse.lsp4jdt.core.java.codeaction.IJavaCodeActionParticipant;
+import org.eclipse.lsp4jdt.core.java.codeaction.JavaCodeActionContext;
+import org.eclipse.lsp4jdt.core.java.codeaction.JavaCodeActionResolveContext;
 
 /**
  * Removes modifiers from the declaring element.

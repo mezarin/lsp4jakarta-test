@@ -28,13 +28,14 @@ import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.eclipse.jdt.internal.core.manipulation.dom.ASTResolving;
 import org.eclipse.lsp4j.CodeActionKind;
 import org.eclipse.lsp4jakarta.jdt.internal.jaxrs.RemoveMethodEntityParamsWithExclusionQuickFix;
+import org.eclipse.lsp4jdt.core.java.corrections.proposal.ASTRewriteCorrectionProposal;
 
 /**
  * Code action proposal for removing parameters of a method except one. Used by
  * JAX-RS ResourceMethodMultipleEntityParamsQuickFix.
  *
  * @author Bera Sogut
- * @see CodeActionHandler
+ * @see JakartaCodeActionHandler
  * @see RemoveMethodEntityParamsWithExclusionQuickFix
  *
  */

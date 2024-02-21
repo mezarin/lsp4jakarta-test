@@ -29,6 +29,13 @@
         <deployTargetFolder>vscode/snapshots/builds/jakarta-jdt/${project.version}</deployTargetFolder>
         <skipDeployToJBossOrg>false</skipDeployToJBossOrg>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.15.1</version>
+        </dependency>
+    </dependencies>
     <build>
         <pluginManagement>
             <plugins>

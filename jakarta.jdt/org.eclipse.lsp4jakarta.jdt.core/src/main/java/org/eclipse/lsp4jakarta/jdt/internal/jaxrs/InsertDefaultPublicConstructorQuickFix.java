@@ -12,9 +12,9 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.jdt.internal.jaxrs;
 
-import org.eclipse.lsp4jakarta.commons.codeaction.ICodeActionId;
 import org.eclipse.lsp4jakarta.commons.codeaction.JakartaCodeActionId;
 import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.InsertDefaultConstructorToClassQuickFix;
+import org.eclipse.lsp4jdt.commons.codeaction.ICodeActionId;
 
 /**
  * Inserts a default public constructor to the active class.

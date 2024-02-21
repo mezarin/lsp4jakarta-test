@@ -13,6 +13,8 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.commons.codeaction;
 
+import org.eclipse.lsp4jdt.commons.codeaction.ICodeActionId;
+
 /**
  * LSP4Jakarta code action id.
  *

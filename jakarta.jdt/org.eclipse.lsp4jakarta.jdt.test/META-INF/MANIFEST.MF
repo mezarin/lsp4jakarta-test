@@ -8,7 +8,7 @@ Automatic-Module-Name: org.eclipse.lsp4jakarta.jdt.test
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: 
  org.junit,
- org.apache.commons.io,
+ org.apache.commons.io;resolution:=optional,
  org.eclipse.lsp4j,
  org.eclipse.lsp4j.jsonrpc,
  org.eclipse.jdt.core,
@@ -20,4 +20,8 @@ Require-Bundle:
  org.eclipse.m2e.maven.runtime,
  org.eclipse.jdt.ls.core;resolution:=optional
 Bundle-ClassPath: . 
-Import-Package: com.google.gson
+Import-Package: com.google.gson,
+ org.eclipse.lsp4jdt.commons,
+ org.eclipse.lsp4jdt.core,
+ org.eclipse.lsp4jdt.core.utils,
+ org.eclipse.lsp4jdt.participants.core.ls

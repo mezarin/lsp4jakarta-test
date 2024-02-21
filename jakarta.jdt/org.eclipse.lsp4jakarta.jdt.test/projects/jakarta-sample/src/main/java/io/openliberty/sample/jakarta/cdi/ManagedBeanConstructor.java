@@ -21,5 +21,5 @@ public class ManagedBeanConstructor {
 	
 	public ManagedBeanConstructor(int a) {
 		this.a = a;
-	}
+	} 
 }

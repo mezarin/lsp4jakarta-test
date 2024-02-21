@@ -28,11 +28,11 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.TextEdit;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lsp4jdt.commons.JavaCodeActionParams;
+import org.eclipse.lsp4jdt.commons.JavaDiagnosticsParams;
+import org.eclipse.lsp4jdt.core.utils.IJDTUtils;
+import org.eclipse.lsp4jdt.participants.core.ls.JDTUtilsLSImpl;
 import org.junit.Test;
 
 public class ResourceAnnotationTest extends BaseJakartaTest {
@@ -45,7 +45,7 @@ public class ResourceAnnotationTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/annotations/ResourceAnnotation.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // expected annotations
@@ -57,12 +57,12 @@ public class ResourceAnnotationTest extends BaseJakartaTest {
 
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d1, d2);
 
-        JakartaJavaCodeActionParams codeActionParams = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams = createCodeActionParams(uri, d1);
         TextEdit te = te(22, 0, 22, 22, "@Resource(name = \"aa\", type = \"\")");
         CodeAction ca = ca(uri, "Insert 'type' attribute to @Resource", d1, te);
         assertJavaCodeAction(codeActionParams, IJDT_UTILS, ca);
 
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d2);
         TextEdit te1 = te(39, 0, 39, 30, "@Resource(type = \"\", name = \"\")");
         CodeAction ca1 = ca(uri, "Insert 'name' attribute to @Resource", d2, te1);
         assertJavaCodeAction(codeActionParams1, IJDT_UTILS, ca1);

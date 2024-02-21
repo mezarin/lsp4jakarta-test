@@ -29,6 +29,7 @@ import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.eclipse.jdt.internal.core.manipulation.dom.ASTResolving;
 import org.eclipse.lsp4j.CodeActionKind;
+import org.eclipse.lsp4jdt.core.java.corrections.proposal.ASTRewriteCorrectionProposal;
 
 /**
  * Code action proposal for adding a no-arg constructor to a class

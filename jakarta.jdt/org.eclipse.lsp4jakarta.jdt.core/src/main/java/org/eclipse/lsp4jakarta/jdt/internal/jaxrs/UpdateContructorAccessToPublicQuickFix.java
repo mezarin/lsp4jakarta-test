@@ -28,15 +28,15 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.CodeActionKind;
 import org.eclipse.lsp4j.Diagnostic;
-import org.eclipse.lsp4jakarta.commons.codeaction.CodeActionResolveData;
 import org.eclipse.lsp4jakarta.commons.codeaction.JakartaCodeActionId;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.ExtendedCodeAction;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.IJavaCodeActionParticipant;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.JavaCodeActionContext;
-import org.eclipse.lsp4jakarta.jdt.core.java.codeaction.JavaCodeActionResolveContext;
-import org.eclipse.lsp4jakarta.jdt.core.java.corrections.proposal.ChangeCorrectionProposal;
 import org.eclipse.lsp4jakarta.jdt.core.java.corrections.proposal.ModifyModifiersProposal;
 import org.eclipse.lsp4jakarta.jdt.internal.Messages;
+import org.eclipse.lsp4jdt.commons.codeaction.CodeActionResolveData;
+import org.eclipse.lsp4jdt.core.java.codeaction.ExtendedCodeAction;
+import org.eclipse.lsp4jdt.core.java.codeaction.IJavaCodeActionParticipant;
+import org.eclipse.lsp4jdt.core.java.codeaction.JavaCodeActionContext;
+import org.eclipse.lsp4jdt.core.java.codeaction.JavaCodeActionResolveContext;
+import org.eclipse.lsp4jdt.core.java.corrections.proposal.ChangeCorrectionProposal;
 
 /**
  * Updates a constructor's access type modifier to public.

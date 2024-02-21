@@ -7,29 +7,25 @@ Bundle-SymbolicName: org.eclipse.lsp4jakarta.jdt.core;singleton:=true
 Bundle-Version: 0.2.1.qualifier
 Bundle-Activator: org.eclipse.lsp4jakarta.jdt.core.JakartaCorePlugin
 Require-Bundle: 
+ com.google.gson,
+ com.google.guava,
+ org.apache.commons.lang3,
+ org.eclipse.buildship.core,
+ org.eclipse.core.resources,
  org.eclipse.core.runtime,
  org.eclipse.jdt.core,
  org.eclipse.jdt.core.manipulation,
- org.eclipse.core.resources,
+ org.eclipse.jdt.ls.core;resolution:=optional,
+ org.eclipse.lsp4j.jsonrpc,
+ org.eclipse.lsp4j,
+ org.eclipse.lsp4jdt.core,
  org.eclipse.m2e.core,
  org.eclipse.m2e.jdt,
  org.eclipse.m2e.maven.runtime,
  org.eclipse.ltk.core.refactoring,
- org.eclipse.jdt.ls.core;resolution:=optional,
- org.eclipse.lsp4j.jsonrpc,
- org.eclipse.lsp4j,
- org.eclipse.buildship.core,
- org.eclipse.text,
- org.apache.commons.lang3,
- com.google.gson,
- com.google.guava
+ org.eclipse.text
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Export-Package: 
- org.eclipse.lsp4jakarta.commons,
- org.eclipse.lsp4jakarta.commons.codeaction,
- org.eclipse.lsp4jakarta.commons.utils,
- org.eclipse.lsp4jakarta.jdt.core,
- org.eclipse.lsp4jakarta.jdt.core.utils,
- org.eclipse.lsp4jakarta.jdt.internal.core.ls
+ org.eclipse.lsp4jakarta.jdt.core

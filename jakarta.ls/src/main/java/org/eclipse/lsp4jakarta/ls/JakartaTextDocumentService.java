@@ -41,13 +41,6 @@ import org.eclipse.lsp4j.PublishDiagnosticsParams;
 import org.eclipse.lsp4j.TextDocumentClientCapabilities;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
 import org.eclipse.lsp4j.services.TextDocumentService;
-import org.eclipse.lsp4jakarta.commons.DocumentFormat;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCompletionResult;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsSettings;
-import org.eclipse.lsp4jakarta.commons.JavaCursorContextResult;
 import org.eclipse.lsp4jakarta.ls.commons.BadLocationException;
 import org.eclipse.lsp4jakarta.ls.commons.TextDocument;
 import org.eclipse.lsp4jakarta.ls.commons.ValidatorDelayer;
@@ -59,6 +52,13 @@ import org.eclipse.lsp4jakarta.settings.JakartaTraceSettings;
 import org.eclipse.lsp4jakarta.settings.SharedSettings;
 import org.eclipse.lsp4jakarta.snippets.JavaSnippetCompletionContext;
 import org.eclipse.lsp4jakarta.snippets.SnippetContextForJava;
+import org.eclipse.lsp4jdt.commons.DocumentFormat;
+import org.eclipse.lsp4jdt.commons.JavaCodeActionParams;
+import org.eclipse.lsp4jdt.commons.JavaCompletionParams;
+import org.eclipse.lsp4jdt.commons.JavaCompletionResult;
+import org.eclipse.lsp4jdt.commons.JavaCursorContextResult;
+import org.eclipse.lsp4jdt.commons.JavaDiagnosticsParams;
+import org.eclipse.lsp4jdt.commons.JavaDiagnosticsSettings;
 
 public class JakartaTextDocumentService implements TextDocumentService {
 
@@ -95,10 +95,10 @@ public class JakartaTextDocumentService implements TextDocumentService {
         JakartaTextDocument document = documents.get(params.getTextDocument().getUri());
 
         return document.executeIfInJakartaProject((projectInfo, cancelChecker) -> {
-            JakartaJavaCompletionParams javaParams = new JakartaJavaCompletionParams(params.getTextDocument().getUri(), params.getPosition());
+            JavaCompletionParams javaParams = new JavaCompletionParams(params.getTextDocument().getUri(), params.getPosition());
 
             // get the completion capabilities from the java language server component
-            CompletableFuture<JakartaJavaCompletionResult> javaParticipantCompletionsFuture = jakartaLanguageServer.getLanguageClient().getJavaCompletion(javaParams);
+            CompletableFuture<JavaCompletionResult> javaParticipantCompletionsFuture = jakartaLanguageServer.getLanguageClient().getJavaCompletion(javaParams);
 
             // calculate params for Java snippets
             Integer completionOffset = null;
@@ -109,7 +109,7 @@ public class JakartaTextDocumentService implements TextDocumentService {
                 return null;
             }
 
-            final Integer finalizedCompletionOffset = completionOffset;
+            final int finalizedCompletionOffset = completionOffset;
             boolean canSupportMarkdown = true;
             boolean snippetsSupported = sharedSettings.getCompletionCapabilities().isCompletionSnippetsSupported();
 
@@ -157,7 +157,7 @@ public class JakartaTextDocumentService implements TextDocumentService {
     @Override
     public CompletableFuture<List<Either<Command, CodeAction>>> codeAction(CodeActionParams params) {
         // Prepare the JakartaJavaCodeActionParams
-        JakartaJavaCodeActionParams codeActionParams = new JakartaJavaCodeActionParams();
+        JavaCodeActionParams codeActionParams = new JavaCodeActionParams();
         codeActionParams.setTextDocument(params.getTextDocument());
         codeActionParams.setRange(params.getRange());
         codeActionParams.setContext(params.getContext());
@@ -246,7 +246,7 @@ public class JakartaTextDocumentService implements TextDocumentService {
             return;
         }
 
-        JakartaJavaDiagnosticsParams javaParams = new JakartaJavaDiagnosticsParams(uris, new JakartaJavaDiagnosticsSettings(null));
+        JavaDiagnosticsParams javaParams = new JavaDiagnosticsParams(uris, new JavaDiagnosticsSettings(null));
 
         boolean markdownSupported = sharedSettings.getHoverSettings().isContentFormatSupported(MarkupKind.MARKDOWN);
         if (markdownSupported) {

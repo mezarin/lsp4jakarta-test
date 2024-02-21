@@ -13,7 +13,7 @@
 *******************************************************************************/
 package org.eclipse.lsp4jakarta.settings;
 
-import org.eclipse.lsp4jakarta.commons.utils.JSONUtility;
+import org.eclipse.lsp4jdt.commons.utils.JSONUtility;
 
 /**
  * Class to hold all settings from the client side.

@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.function.BiPredicate;
 
 import org.eclipse.lsp4j.CompletionItem;
-import org.eclipse.lsp4jakarta.commons.ProjectLabelInfoEntry;
 import org.eclipse.lsp4jakarta.commons.utils.StringUtils;
 import org.eclipse.lsp4jakarta.ls.commons.BadLocationException;
 import org.eclipse.lsp4jakarta.ls.commons.snippets.ISnippetContext;
@@ -29,6 +28,7 @@ import org.eclipse.lsp4jakarta.ls.commons.snippets.TextDocumentSnippetRegistry;
 import org.eclipse.lsp4jakarta.ls.java.JakartaTextDocuments.JakartaTextDocument;
 import org.eclipse.lsp4jakarta.snippets.LanguageId;
 import org.eclipse.lsp4jakarta.snippets.SnippetContextForJava;
+import org.eclipse.lsp4jdt.commons.ProjectLabelInfoEntry;
 
 /**
  * Java snippet registry. When a snippet is registered it replaces for the first

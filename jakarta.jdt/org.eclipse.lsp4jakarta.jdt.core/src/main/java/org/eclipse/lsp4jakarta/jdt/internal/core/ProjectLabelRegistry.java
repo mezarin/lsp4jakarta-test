@@ -21,9 +21,9 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.lsp4jakarta.jdt.core.IProjectLabelProvider;
 import org.eclipse.lsp4jakarta.jdt.core.JakartaCorePlugin;
-import org.eclipse.lsp4jakarta.jdt.core.ProjectLabelDefinition;
+import org.eclipse.lsp4jdt.core.IProjectLabelProvider;
+import org.eclipse.lsp4jdt.core.ProjectLabelDefinition;
 
 /**
  * Registry to hold the extension point

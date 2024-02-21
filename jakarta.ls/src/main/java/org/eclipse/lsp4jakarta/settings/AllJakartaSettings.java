@@ -14,7 +14,7 @@
 package org.eclipse.lsp4jakarta.settings;
 
 import org.eclipse.lsp4j.jsonrpc.json.adapters.JsonElementTypeAdapter;
-import org.eclipse.lsp4jakarta.commons.utils.JSONUtility;
+import org.eclipse.lsp4jdt.commons.utils.JSONUtility;
 
 import com.google.gson.annotations.JsonAdapter;
 

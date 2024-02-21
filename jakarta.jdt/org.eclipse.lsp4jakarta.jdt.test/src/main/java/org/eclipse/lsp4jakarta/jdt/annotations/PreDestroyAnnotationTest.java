@@ -28,11 +28,11 @@ import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.TextEdit;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaCodeActionParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaDiagnosticsParams;
 import org.eclipse.lsp4jakarta.jdt.core.BaseJakartaTest;
-import org.eclipse.lsp4jakarta.jdt.core.utils.IJDTUtils;
-import org.eclipse.lsp4jakarta.jdt.internal.core.ls.JDTUtilsLSImpl;
+import org.eclipse.lsp4jdt.commons.JavaCodeActionParams;
+import org.eclipse.lsp4jdt.commons.JavaDiagnosticsParams;
+import org.eclipse.lsp4jdt.core.utils.IJDTUtils;
+import org.eclipse.lsp4jdt.participants.core.ls.JDTUtilsLSImpl;
 import org.junit.Test;
 
 public class PreDestroyAnnotationTest extends BaseJakartaTest {
@@ -45,7 +45,7 @@ public class PreDestroyAnnotationTest extends BaseJakartaTest {
         IFile javaFile = javaProject.getProject().getFile(new Path("src/main/java/io/openliberty/sample/jakarta/annotations/PreDestroyAnnotation.java"));
         String uri = javaFile.getLocation().toFile().toURI().toString();
 
-        JakartaJavaDiagnosticsParams diagnosticsParams = new JakartaJavaDiagnosticsParams();
+        JavaDiagnosticsParams diagnosticsParams = new JavaDiagnosticsParams();
         diagnosticsParams.setUris(Arrays.asList(uri));
 
         // expected annotations
@@ -61,14 +61,14 @@ public class PreDestroyAnnotationTest extends BaseJakartaTest {
 
         assertJavaDiagnostics(diagnosticsParams, IJDT_UTILS, d2, d1, d3);
 
-        JakartaJavaCodeActionParams codeActionParams = createCodeActionParams(uri, d1);
+        JavaCodeActionParams codeActionParams = createCodeActionParams(uri, d1);
         TextEdit te = te(19, 1, 20, 1, "");
         TextEdit te1 = te(20, 29, 20, 40, "");
         CodeAction ca = ca(uri, "Remove @PreDestroy", d1, te);
         CodeAction ca1 = ca(uri, "Remove all parameters", d1, te1);
         assertJavaCodeAction(codeActionParams, IJDT_UTILS, ca, ca1);
 
-        JakartaJavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d2);
+        JavaCodeActionParams codeActionParams1 = createCodeActionParams(uri, d2);
         TextEdit te2 = te(25, 1, 26, 1, "");
         TextEdit te3 = te(26, 7, 26, 14, "");
         CodeAction ca2 = ca(uri, "Remove @PreDestroy", d2, te2);

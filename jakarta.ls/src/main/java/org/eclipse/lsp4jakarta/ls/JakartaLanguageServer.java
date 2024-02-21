@@ -29,10 +29,6 @@ import org.eclipse.lsp4j.services.LanguageClient;
 import org.eclipse.lsp4j.services.LanguageServer;
 import org.eclipse.lsp4j.services.TextDocumentService;
 import org.eclipse.lsp4j.services.WorkspaceService;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfo;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaFileInfoParams;
-import org.eclipse.lsp4jakarta.commons.JakartaJavaProjectLabelsParams;
-import org.eclipse.lsp4jakarta.commons.ProjectLabelInfoEntry;
 import org.eclipse.lsp4jakarta.ls.api.JakartaJavaFileInfoProvider;
 import org.eclipse.lsp4jakarta.ls.api.JakartaJavaProjectLabelsProvider;
 import org.eclipse.lsp4jakarta.ls.api.JakartaLanguageClientAPI;
@@ -47,6 +43,10 @@ import org.eclipse.lsp4jakarta.settings.JakartaTraceSettings;
 import org.eclipse.lsp4jakarta.settings.SharedSettings;
 import org.eclipse.lsp4jakarta.settings.capabilities.JakartaCapabilityManager;
 import org.eclipse.lsp4jakarta.settings.capabilities.ServerCapabilitiesInitializer;
+import org.eclipse.lsp4jdt.commons.JavaFileInfo;
+import org.eclipse.lsp4jdt.commons.JavaFileInfoParams;
+import org.eclipse.lsp4jdt.commons.JavaProjectLabelsParams;
+import org.eclipse.lsp4jdt.commons.ProjectLabelInfoEntry;
 
 /**
  * Jakarta Language server.
@@ -203,7 +203,7 @@ public class JakartaLanguageServer implements LanguageServer, ProcessLanguageSer
      */
     @Override
     public CompletableFuture<ProjectLabelInfoEntry> getJavaProjectLabels(
-                                                                         JakartaJavaProjectLabelsParams javaParams) {
+                                                                         JavaProjectLabelsParams javaParams) {
         return getLanguageClient().getJavaProjectLabels(javaParams);
     }
 
@@ -219,7 +219,7 @@ public class JakartaLanguageServer implements LanguageServer, ProcessLanguageSer
      * {@inheritDoc}
      */
     @Override
-    public CompletableFuture<JakartaJavaFileInfo> getJavaFileInfo(JakartaJavaFileInfoParams javaParams) {
+    public CompletableFuture<JavaFileInfo> getJavaFileInfo(JavaFileInfoParams javaParams) {
         return getLanguageClient().getJavaFileInfo(javaParams);
     }
 
